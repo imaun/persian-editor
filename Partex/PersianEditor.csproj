@@ -38,10 +38,27 @@
   <PropertyGroup>
     <ApplicationIcon>persanEditor.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Farasun.PersianLib">
-      <HintPath>..\..\..\..\Projects on MyDocuments\FarasunLibrary\FarasunLibrary\Farasun.PersianLib\bin\Debug\Farasun.PersianLib.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -51,12 +68,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FindForm.cs">
+    <Compile Include="Exceptions\FilePathNotExist.cs" />
+    <Compile Include="Forms\DateForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FindForm.Designer.cs">
+    <Compile Include="Forms\DateForm.Designer.cs">
+      <DependentUpon>DateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FindForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FindForm.Designer.cs">
       <DependentUpon>FindForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DateTimeHelper.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,10 +90,18 @@
     </Compile>
     <Compile Include="Models\Clip.cs" />
     <Compile Include="Models\MainWindowState.cs" />
-    <Compile Include="Models\PartexFile.cs" />
+    <Compile Include="Models\TxtFile.cs" />
+    <Compile Include="Models\TxtEditor.cs" />
+    <Compile Include="Models\Types\InsertDateFormValueMode.cs" />
+    <Compile Include="Models\Types\InsertTextType.cs" />
+    <Compile Include="Models\Types\InsertDateFormat.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FindForm.resx">
+    <Compile Include="TextProcessor\TxtProcessor.cs" />
+    <EmbeddedResource Include="Forms\DateForm.resx">
+      <DependentUpon>DateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FindForm.resx">
       <DependentUpon>FindForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
@@ -97,6 +130,15 @@
   <ItemGroup>
     <Content Include="persanEditor.ico" />
     <None Include="Resources\1347880273_101.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ParsPad.Core\ParsPad.Core.csproj">
+      <Project>{3bf379b0-dc2f-40d1-9f8c-a19e99b7b7fb}</Project>
+      <Name>ParsPad.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
