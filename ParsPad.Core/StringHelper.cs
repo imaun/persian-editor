@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ParsPad.Core {
+namespace Farcin.Editor.Core {
     public static class StringHelper {
 
         //From .NET source code!

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Forms;
 using Microsoft.VisualBasic.ApplicationServices;
-using PersianEditor.Models;
 
-namespace PersianEditor
+namespace Farcin.Editor
 {
     static class Program
     {

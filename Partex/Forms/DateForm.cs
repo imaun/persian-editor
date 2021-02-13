@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Farcin.Editor.Core.Date;
+using Farcin.Editor.Core.Models.Types;
+using System;
 using System.Globalization;
 using System.Windows.Forms;
-using PersianEditor.Models.Types;
 
-namespace PersianEditor.Forms {
+namespace Farcin.Editor.Forms {
     public partial class DateForm : Form {
         public DateForm() {
             InitializeComponent();
@@ -41,7 +42,20 @@ namespace PersianEditor.Forms {
 
         public string SelectedDateLongFormatText => SelectedDateValue.ToLongDateString();
 
+        public string SelectedDateShortFormatPersian =>
+            new PersianDateHelper(SelectedDateValue)
+                .ToString(PersianDateFormat.ShortDate);
+
+        public string SelectedDateLongFormatPersian =>
+            new PersianDateHelper(SelectedDateValue)
+                .ToString(PersianDateFormat.LongDate);
+
         public string SelectedDateCustomText => $"";
+
+        public bool MustConvertToShamsi {
+            get => chkConvertToShamsi.Checked;
+            set => chkConvertToShamsi.Checked = value;
+        }
 
         private MainForm mainForm => (MainForm)Application.OpenForms["MainForm"];
 
@@ -51,11 +65,20 @@ namespace PersianEditor.Forms {
         private void btnInsertDate_Click(object sender, EventArgs e) {
             if (mainForm.ActiveEditor == null) return;
 
-            var result = SelectedDateValue.ToString(CultureInfo.CurrentUICulture);
-            if (DateFormatMode == InsertDateFormValueMode.ShortDateFormat)
-                result = SelectedDateShortFormatText;
-            else if (DateFormatMode == InsertDateFormValueMode.LongDateFormat)
-                result = SelectedDateLongFormatText;
+            var result = string.Empty;            
+            if(MustConvertToShamsi) {
+                if (DateFormatMode == InsertDateFormValueMode.ShortDateFormat)
+                    result = SelectedDateShortFormatPersian;
+                else if (DateFormatMode == InsertDateFormValueMode.LongDateFormat)
+                    result = SelectedDateLongFormatPersian;
+            }
+            else {
+                result = SelectedDateValue.ToString(CultureInfo.CurrentUICulture);
+                if (DateFormatMode == InsertDateFormValueMode.ShortDateFormat)
+                    result = SelectedDateShortFormatText;
+                else if (DateFormatMode == InsertDateFormValueMode.LongDateFormat)
+                    result = SelectedDateLongFormatText;
+            }
 
             mainForm.ActiveEditor.Insert(result);
             mainForm.ActiveEditor.Focus();
@@ -95,8 +118,18 @@ namespace PersianEditor.Forms {
         }
 
         private void datePicker_ValueChanged(object sender, EventArgs e) {
-            rdbLongDate.Text = SelectedDateLongFormatText;
-            rdbShortDate.Text = SelectedDateShortFormatText;
+            if(MustConvertToShamsi) {
+                rdbLongDate.Text = SelectedDateLongFormatPersian;
+                rdbShortDate.Text = SelectedDateShortFormatPersian;
+            }
+            else {
+                rdbLongDate.Text = SelectedDateLongFormatText;
+                rdbShortDate.Text = SelectedDateShortFormatText;
+            }
+        }
+
+        private void chkConvertToShamsi_CheckedChanged(object sender, EventArgs e) {
+            datePicker_ValueChanged(sender, e);
         }
     }
 }

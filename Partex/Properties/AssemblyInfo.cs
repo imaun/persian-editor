@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Persian Editor")]
+[assembly: AssemblyTitle("Farcin Text Editor")]
 [assembly: AssemblyDescription("Full featured text editor optimized for Persian language")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Farasun")]
-[assembly: AssemblyProduct("Persian Editor")]
-[assembly: AssemblyCopyright("Copyright ©  2014 Farasun")]
+[assembly: AssemblyCompany("imaun")]
+[assembly: AssemblyProduct("Farcin Text Editor")]
+[assembly: AssemblyCopyright("Copyright ©  2014-2020 Iman Nemati")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

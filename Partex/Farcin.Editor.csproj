@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{30646E2F-E2FE-426A-BEAE-634A2A254259}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Farcin.Editor</RootNamespace>
+    <AssemblyName>FarcinEditor</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Farcin.Editor.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>farcin-editor.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net20\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\FileProperties.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\FileProperties.Designer.cs">
+      <DependentUpon>FileProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ClipboardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ClipboardForm.Designer.cs">
+      <DependentUpon>ClipboardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DateForm.Designer.cs">
+      <DependentUpon>DateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FindForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FindForm.Designer.cs">
+      <DependentUpon>FindForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GotoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GotoForm.Designer.cs">
+      <DependentUpon>GotoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\SysInfoHelper.cs" />
+    <EmbeddedResource Include="Controls\FileProperties.resx">
+      <DependentUpon>FileProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ClipboardForm.resx">
+      <DependentUpon>ClipboardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DateForm.resx">
+      <DependentUpon>DateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FindForm.resx">
+      <DependentUpon>FindForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GotoForm.resx">
+      <DependentUpon>GotoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="appsetting.json" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="farcin-editor.ico" />
+    <None Include="Resources\icons8-zoom-out-30.png" />
+    <None Include="Resources\icons8-zoom-in-30.png" />
+    <None Include="Resources\icons8-lowercase-30.png" />
+    <None Include="Resources\icons8-back-arrow-30.png" />
+    <None Include="Resources\icons8-forward-button-30.png" />
+    <None Include="Resources\icons8-search-30.png" />
+    <None Include="Resources\icons8-select-all-161.png" />
+    <None Include="Resources\icons8-delete-161.png" />
+    <None Include="Resources\icons8-paste-161.png" />
+    <None Include="Resources\icons8-copy-161.png" />
+    <None Include="Resources\icons8-cut-161.png" />
+    <None Include="Resources\icons8-undo-161.png" />
+    <None Include="Resources\icons8-page-setup-30.png" />
+    <None Include="Resources\icons8-print-30.png" />
+    <None Include="Resources\icons8-save-all-30.png" />
+    <None Include="Resources\icons8-save-as-30.png" />
+    <None Include="Resources\icons8-save-30.png" />
+    <None Include="Resources\icons8-opened-folder-30.png" />
+    <None Include="Resources\icons8-new-copy-30.png" />
+    <None Include="Resources\icons8-paint-palette-16.png" />
+    <None Include="Resources\icons8-high-importance-16.png" />
+    <None Include="Resources\icons8-internet-16.png" />
+    <None Include="Resources\icons8-top-docking-16.png" />
+    <None Include="Resources\icons8-advertisement-page-16.png" />
+    <None Include="Resources\icons8-signal-16.png" />
+    <None Include="Resources\icons8-survey-16.png" />
+    <None Include="Resources\icons8-gear-16.png" />
+    <None Include="Resources\icons8-time-16.png" />
+    <None Include="Resources\icons8-sort-right-16.png" />
+    <None Include="Resources\icons8-sort-left-16.png" />
+    <None Include="Resources\icons8-full-screen-16.png" />
+    <None Include="Resources\icons8-card-exchange-16.png" />
+    <None Include="Resources\icons8-browse-folder-16.png" />
+    <None Include="Resources\icons8-list-view-16.png" />
+    <None Include="Resources\icons8-questions-16.png" />
+    <None Include="Resources\icons8-zoom-out-16.png" />
+    <None Include="Resources\icons8-zoom-in-16.png" />
+    <None Include="Resources\icons8-font-size-16.png" />
+    <None Include="Resources\icons8-calendar-16.png" />
+    <None Include="Resources\icons8-calendar-22-16.png" />
+    <None Include="Resources\icons8-select-none-16.png" />
+    <None Include="Resources\icons8-select-all-16.png" />
+    <None Include="Resources\icons8-delete-16.png" />
+    <None Include="Resources\icons8-paste-16.png" />
+    <None Include="Resources\icons8-copy-16.png" />
+    <None Include="Resources\icons8-cut-16.png" />
+    <None Include="Resources\icons8-undo-16.png" />
+    <None Include="Resources\icons8-page-setup-16.png" />
+    <None Include="Resources\icons8-back-arrow-16.png" />
+    <None Include="Resources\icons8-forward-button-161.png" />
+    <None Include="Resources\icons8-forward-button-16.png" />
+    <None Include="Resources\icons8-search-16.png" />
+    <None Include="Resources\icons8-enter-16.png" />
+    <None Include="Resources\icons8-print-16.png" />
+    <None Include="Resources\icons8-save-as-16.png" />
+    <None Include="Resources\icons8-save-16.png" />
+    <None Include="Resources\icons8-opened-folder-16.png" />
+    <None Include="Resources\icons8-add-16.png" />
+    <None Include="Resources\icons8-delete-40.png" />
+    <None Include="Resources\icons8-cut-40.png" />
+    <None Include="Resources\icons8-undo-40.png" />
+    <None Include="Resources\icons8-copy-to-clipboard-40.png" />
+    <None Include="Resources\icons8-copy-40.png" />
+    <None Include="Resources\icons8-page-setup-40.png" />
+    <None Include="Resources\icons8-print-40.png" />
+    <None Include="Resources\icons8-save-all-40.png" />
+    <None Include="Resources\icons8-save-as-40.png" />
+    <None Include="Resources\icons8-save-40.png" />
+    <None Include="Resources\icons8-add-file-40.png" />
+    <None Include="Resources\icons8-opened-folder-40.png" />
+    <None Include="Resources\1347880273_101.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ParsPad.Core\Farcin.Editor.Core.csproj">
+      <Project>{3bf379b0-dc2f-40d1-9f8c-a19e99b7b7fb}</Project>
+      <Name>Farcin.Editor.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

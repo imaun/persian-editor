@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace PersianEditor.Forms {
+namespace Farcin.Editor.Forms {
     public enum FindFormMode {
         Find, 
         Replace
@@ -12,9 +12,17 @@ namespace PersianEditor.Forms {
 
         #region Properties
 
-        public FindFormMode Mode => Tabs.SelectedTab == tabFind
-            ? FindFormMode.Find
-            : FindFormMode.Replace;
+        public FindFormMode Mode {
+            get =>
+                Tabs.SelectedTab == tabFind
+                    ? FindFormMode.Find
+                    : FindFormMode.Replace;
+            set => Tabs.SelectedTab = value == FindFormMode.Find ? tabFind : tabReplace;
+        }
+
+        //public FindFormMode Mode => Tabs.SelectedTab == tabFind
+        //    ? FindFormMode.Find
+        //    : FindFormMode.Replace;
 
         public string FindText => Mode == FindFormMode.Find
             ? txtFind.Text
@@ -66,8 +74,9 @@ namespace PersianEditor.Forms {
 
         #endregion
 
-        public FindForm() {
+        public FindForm(FindFormMode mode = FindFormMode.Find) {
             InitializeComponent();
+            Mode = mode;
         }
 
         #region Helper Methods
@@ -171,6 +180,12 @@ namespace PersianEditor.Forms {
             MessageBox.Show($"تعداد {replacedCount} جایگزینی انجام شد.");
         }
 
+        public void GoToReplaceMode() {
+            Mode = FindFormMode.Replace;
+            txtReplace.SelectAll();
+            txtReplace.Focus();
+            Activate();
+        }
         #endregion
 
 

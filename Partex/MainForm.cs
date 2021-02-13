@@ -2,30 +2,33 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using PersianEditor.Models;
-using PersianEditor.TextProcessor;
-using PersianEditor.Models.Types;
-using PersianEditor.Forms;
-using System.Xml.Serialization;
-using System.ComponentModel.Design;
+using Farcin.Editor.Core.Models;
+using Farcin.Editor.Core.Models.Setting;
+using Farcin.Editor.Core.TextProcessor;
+using Farcin.Editor.Core.Models.Types;
+using Farcin.Editor.Forms;
+using Farcin.Editor.Controls;
+using Farcin.Editor.Core.Services;
 
-namespace PersianEditor {
+namespace Farcin.Editor {
+
     public partial class MainForm : Form {
+       
         #region Constants
 
-        private const string APP_TITLE = "فارسینا";
-
+        private const string APP_TITLE = "فارسین";
+        private const string PROPERTIES_TAG = "properties";
         #endregion
 
         #region Declerations
 
-        public List<Clip> MyClipboard = new List<Clip>(); 
-
         public List<TxtEditor> Editors { get; set; }
 
-        FindForm findForm = new FindForm();
-        DateForm dateForm = new DateForm();
-        
+        private FindForm findForm = new FindForm();
+        private DateForm dateForm = new DateForm();
+        private ClipboardForm clipboardForm = new ClipboardForm();
+        private AppSetting _appSettings;
+
         #endregion
 
         #region Properties
@@ -34,10 +37,12 @@ namespace PersianEditor {
             set => lblStatus.Text = value;
         }
 
+        public TabPage CurrentTabPage => Tabs.SelectedTab;
+
         public TxtEditor ActiveEditor {
             get {
                 try {
-                    return Tabs.SelectedTab != null
+                    return CurrentTabPage != null
                         ? Editors[ActiveEditorIndex]
                         : null;
                 }
@@ -59,6 +64,11 @@ namespace PersianEditor {
             set => ActiveEditor.Font = value;
         }
 
+        public bool AutoFixYeKe {
+            get => mnuCorrectYekeAuto.Checked;
+            set => mnuCorrectYekeAuto.Checked = value;
+        }
+
         #endregion
 
         #region Methods
@@ -66,6 +76,7 @@ namespace PersianEditor {
         private void StartUp() {
             this.Text = APP_TITLE;
             Editors = new List<TxtEditor>();
+            _appSettings = AppSetting.Load();
             findForm.Disposed += FindForm_Disposed;
             MainWindowState.FullScreen = false;
             MainWindowState.LastHeight = Height;
@@ -73,30 +84,41 @@ namespace PersianEditor {
             MainWindowState.LastLeftPosition = Left;
             MainWindowState.LastTopPosition = Top;
             MouseWheel += MainForm_MouseWheel;
+            applySettings();
         }
 
-        
-
-        private void CreateTab(TxtFile file = null) {
+        private TxtEditor CreateTab(TxtFile file = null) {
             if(file != null && file.HasValidFilePath) {
                 var editor_index = TxtEditor.Exist(Editors, file.Path);
                 if (editor_index > -1) {
                     Tabs.SelectedIndex = editor_index;
-                    return;
+                    return Editors[editor_index];
                 }
             }
 
             var tab = new TabPage();
             if (file == null) file = new TxtFile();
             var editor = new TxtEditor(tab, Tabs.TabPages.Count, file, Editors.Count, mnuEditor) {
-                Editor_TextChanged = Editor_TextChanged
+                Editor_TextChanged = Editor_TextChanged,
+                Editor_StatusChanged = Editor_StatusChanged,
+                BackColor = _appSettings.DefaultFileSetting.BackColorValue,
+                Font = _appSettings.DefaultFileSetting.Font,
+                ForeColor = _appSettings.DefaultFileSetting.ForeColorValue,
+                Rtl = _appSettings.DefaultFileSetting.IsRtl,
             };
+            Splitter splitter = new Splitter {
+                Dock = DockStyle.Left
+            };
+            tab.Controls.Add(splitter);
             tab.ToolTipText = file.Path;
             Tabs.TabPages.Add(tab);
             Tabs.SelectedIndex = Tabs.TabPages.Count - 1;
             editor.Focus();
             Editors.Add(editor);
             UpdateStatus();
+            UpdateMenuAndToolbarItems();
+
+            return editor;
         }
 
         private void CreateNewTabIfEmpty() {
@@ -164,6 +186,15 @@ namespace PersianEditor {
             }
         }
 
+        private void UpdateMenuAndToolbarItems() {
+            if (ActiveEditor == null) return;
+
+            var hasSelection = ActiveEditor.SelectionLength > 0;
+            mnuEditDelete.Enabled = mnuEditUnselect.Enabled = hasSelection;
+
+            mnuEditUndo.Enabled = tolEditUndo.Enabled = ActiveEditor.CanUndo;
+        }
+
         public void SetFont(Font font) {
             ActiveEditorFont = font;
         }
@@ -185,7 +216,6 @@ namespace PersianEditor {
             }
             //this.Activate();
         }
-
 
         private void SaveCurrentFile()
         {
@@ -244,7 +274,6 @@ namespace PersianEditor {
             }
         }
 
-
         private bool CloseAllTabs(bool onExitApp) {
             var count = Editors.Count;
             for (var i = 0; i < count; i++) {
@@ -261,6 +290,58 @@ namespace PersianEditor {
             return true;
         }
 
+        private void applySettings() {
+            this.Size = new Size(
+                _appSettings.UserInterface.Window.Width,
+                _appSettings.UserInterface.Window.Height);
+            this.Opacity = _appSettings.UserInterface.Window.Opacity;
+            if (_appSettings.UserInterface.Window.Maximized)
+                this.WindowState = FormWindowState.Maximized;
+            this.TopMost = _appSettings.UserInterface.Window.TopMost;
+            if(_appSettings.HasOpenedFiles) {
+                foreach(var openedFile in _appSettings.OpenedFiles) {
+                    var file = new TxtFile {
+                        Name = openedFile.Name,
+                        Changed = !openedFile.Saved,
+                        Path = !string.IsNullOrEmpty(openedFile.FilePath)
+                            ? openedFile.FilePath
+                            : openedFile.TempFilePath,
+                        SavedToHard = openedFile.Saved,
+                    };
+                    file.Text = TxtProcessor.ReadFileText(file.Path);
+                    var editor = CreateTab(file);
+                    editor.ApplySetting(openedFile);
+                }
+            }
+        }
+
+
+        private void saveSettings() {
+            _appSettings.UserInterface.Window.Width = Width;
+            _appSettings.UserInterface.Window.Height = Height;
+            _appSettings.UserInterface.Window.Opacity = Opacity;
+            _appSettings.UserInterface.Window.Maximized = 
+                WindowState == FormWindowState.Maximized;
+            _appSettings.UserInterface.Window.TopMost = TopMost;
+            _appSettings.OpenedFiles = new List<TxtFileSetting>();
+            var openedFilesSetting = new KeepOpenFileService(Editors)
+                .CreateOpenedFilesSetting();
+            _appSettings.OpenedFiles = openedFilesSetting;
+            //foreach(var editor in Editors) {
+            //    _appSettings.OpenedFiles.Add(new TxtFileSetting {
+            //        BackColor = editor.BackColor.ToString(),
+            //        CurrentLine = editor.CurrentLineIndex,
+            //        FilePath = editor.File.Path,
+            //        FontName = editor.Font.Name,
+            //        FontSize = editor.Font.Size,
+            //        ForeColor = editor.ForeColor.ToString(),
+            //        IsRtl = editor.Rtl,
+            //        Saved = editor.File.SavedToHard
+            //    });
+            //}
+
+            _appSettings.Save();
+        }
 
         #endregion
 
@@ -268,8 +349,17 @@ namespace PersianEditor {
         {
             UpdateStatus();
             Editors[ActiveEditor.Index].File.Changed = true;
+
             if(!Tabs.SelectedTab.Text.Contains("*"))
                 Tabs.SelectedTab.Text += "*";
+
+            var fileProperties = findFileProperties(CurrentTabPage);
+            if (fileProperties != null)
+                fileProperties.LoadFileInfo(ActiveEditor);
+        }
+
+        private void Editor_StatusChanged(object sender, EventArgs e) {
+            UpdateStatus();
         }
 
         public MainForm() {
@@ -311,6 +401,7 @@ namespace PersianEditor {
             if (ActiveEditor == null) return;
             if(ActiveEditor.CanUndo)
                 ActiveEditor.Undo();
+            UpdateStatus();
         }
 
         private void mnuFileSave_Click(object sender, EventArgs e) {
@@ -366,25 +457,29 @@ namespace PersianEditor {
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e) {
-            e.Cancel = !CloseAllTabs(onExitApp: true);
+            saveSettings();
+            
+            //e.Cancel = !CloseAllTabs(onExitApp: true);
         }
 
         private void mnuEditCut_Click(object sender, EventArgs e) {
             if (ActiveEditor == null) return;
             if (ActiveEditor.SelectionLength > 0)
-                MyClipboard.Add(new Clip(ActiveEditor.SelectedText, 
+                clipboardForm.AddToClipboard(new Clip(ActiveEditor.SelectedText, 
                     ClipboardOperation.Cut, DateTime.Now));
             
             ActiveEditor.Cut();
+            UpdateStatus();
         }
 
         private void mnuEditCopy_Click(object sender, EventArgs e) {
             if (ActiveEditor == null) return;
             if (ActiveEditor.SelectionLength > 0)
-                MyClipboard.Add(new Clip(ActiveEditor.SelectedText,
+                clipboardForm.AddToClipboard(new Clip(ActiveEditor.SelectedText,
                     ClipboardOperation.Copy, DateTime.Now));
             
             ActiveEditor.Copy();
+            UpdateStatus();
         }
 
         private void mnuEditPaste_Click(object sender, EventArgs e) {
@@ -408,7 +503,7 @@ namespace PersianEditor {
 
             ActiveEditor.SelectAll();
             ActiveEditor.Copy();
-            MyClipboard.Add(new Clip(ActiveEditor.SelectedText,
+            clipboardForm.AddToClipboard(new Clip(ActiveEditor.SelectedText,
                 ClipboardOperation.Copy, DateTime.Now));
             ActiveEditor.ClearSelection();
         }
@@ -418,7 +513,7 @@ namespace PersianEditor {
 
             if (ActiveEditor.File.SavedToHard) {
                 Clipboard.SetText(ActiveEditor.File.Path);
-                MyClipboard.Add(new Clip(ActiveEditor.File.Path,
+                clipboardForm.AddToClipboard(new Clip(ActiveEditor.File.Path,
                     ClipboardOperation.Copy, DateTime.Now));
             }
         }
@@ -428,7 +523,7 @@ namespace PersianEditor {
 
             if (ActiveEditor.File.SavedToHard) {
                 Clipboard.SetText(ActiveEditor.File.Name);
-                MyClipboard.Add(new Clip(ActiveEditor.File.Name,
+                clipboardForm.AddToClipboard(new Clip(ActiveEditor.File.Name,
                     ClipboardOperation.Copy, DateTime.Now));
             }
         }
@@ -441,8 +536,9 @@ namespace PersianEditor {
             if (ActiveEditor == null) return;
 
             var result = ActiveEditor.CutCurrentLine();
-            if(!string.IsNullOrEmpty(result)) 
-                MyClipboard.Add(new Clip(result, ClipboardOperation.Cut, DateTime.Now));
+            if(!string.IsNullOrEmpty(result))
+                clipboardForm.AddToClipboard(
+                    new Clip(result, ClipboardOperation.Cut, DateTime.Now));
         }
 
         private void MainForm_Load(object sender, EventArgs e) {
@@ -452,7 +548,7 @@ namespace PersianEditor {
 
         private void mnuSearchFind_Click(object sender, EventArgs e) {
             if(findForm.IsDisposed)
-                findForm = new FindForm();
+                findForm = new FindForm(mode: FindFormMode.Find);
             if(findForm.Visible) findForm.Activate();
             else findForm.Show(this);
         }
@@ -483,7 +579,12 @@ namespace PersianEditor {
         }
 
         private void mnuSearchGoto_Click(object sender, EventArgs e) {
-            ActiveEditor?.GoToLine(2);
+            if (ActiveEditor == null) return;
+            using (var form = new GotoForm(ActiveEditor.CurrentLineNumber)) {
+                if(form.ShowDialog() == DialogResult.OK) {
+                    ActiveEditor.GoToLine(form.LineNumber);
+                }
+            }
         }
 
         private void mnuViewFont_Click(object sender, EventArgs e) {
@@ -572,12 +673,21 @@ namespace PersianEditor {
         private void mnuView_DropDownOpening(object sender, EventArgs e) {
             mnuViewToolbar.Checked = Toolbar.Visible;
             mnuViewStatusBar.Checked = Statusbar.Visible;
+            mnuViewToolbarEdit.Checked = ToolbarEdit.Visible;
             mnuViewRightToLeft.Checked = ActiveEditor.Rtl;
             mnuViewLeftToRight.Checked = !ActiveEditor.Rtl;
         }
 
         private void mnuViewToolbar_Click(object sender, EventArgs e) {
             mnuViewToolbar.Checked = Toolbar.Visible = !mnuViewToolbar.Checked;
+            if(Toolbar.Visible) {
+                Tabs.Height -= Toolbar.Height;
+                Tabs.Top += Toolbar.Height;
+            }
+            else {
+                Tabs.Height += Toolbar.Height;
+                Tabs.Top -= Toolbar.Height;
+            }
         }
 
         private void mnuViewStatusBar_Click(object sender, EventArgs e) {
@@ -604,10 +714,6 @@ namespace PersianEditor {
                 }
                 idx++;
             }
-        }
-
-        private void Toolbar_MouseDoubleClick(object sender, MouseEventArgs e) {
-            CreateTab();
         }
 
         private void mnuViewRightToLeft_Click(object sender, EventArgs e) {
@@ -638,7 +744,7 @@ namespace PersianEditor {
             if(ModifierKeys == Keys.Control && e.Delta > 0) {
                 mnuViewZoomIn_Click(this, null);
             }
-            else {
+            else if(ModifierKeys == Keys.Control && e.Delta <= 0) {
                 mnuViewZoomOut_Click(this, null);
             }
         }
@@ -673,6 +779,117 @@ namespace PersianEditor {
                 dateForm = new DateForm();
             if (dateForm.Visible) dateForm.Activate();
             else dateForm.Show(this);
+        }
+
+        private void mnuSearchReplace_Click(object sender, EventArgs e) {
+            if (findForm.IsDisposed)
+                findForm = new FindForm(mode: FindFormMode.Replace);
+            if (findForm.Visible) 
+                findForm.GoToReplaceMode();
+            else 
+                findForm.Show(this);
+        }
+
+        private void mnuFilePrint_Click(object sender, EventArgs e) {
+            ActiveEditor?.Print();
+        }
+
+        private void mnuFilePageSetup_Click(object sender, EventArgs e) {
+            ActiveEditor?.GetPrintSetting();
+        }
+
+        private void mnuToolsClipboard_Click(object sender, EventArgs e) {
+            if(clipboardForm.IsDisposed)
+                clipboardForm = new ClipboardForm();
+            if(clipboardForm.Visible)
+                clipboardForm.Activate();
+            else
+                clipboardForm.Show(this);
+        }
+
+        private void mnuViewBackColor_Click(object sender, EventArgs e) {
+            if (ActiveEditor == null) return;
+
+            using(var colorDlg = new ColorDialog()) {
+                colorDlg.Color = ActiveEditor.BackColor;
+                colorDlg.AnyColor = true;
+                if(colorDlg.ShowDialog() == DialogResult.OK) {
+                    ActiveEditor.BackColor = colorDlg.Color;
+                }
+            }
+        }
+
+        private void mnuViewToolbarEdit_Click(object sender, EventArgs e) {
+            mnuViewToolbarEdit.Checked = 
+                ToolbarEdit.Visible = 
+                !mnuViewToolbarEdit.Checked;
+            if (ToolbarEdit.Visible) {
+                Tabs.Height -= ToolbarEdit.Height;
+                Tabs.Top += ToolbarEdit.Height;
+            }
+            else {
+                Tabs.Height += ToolbarEdit.Height;
+                Tabs.Top -= ToolbarEdit.Height;
+            }
+        }
+
+        private void mnuEditorAlignRight_Click(object sender, EventArgs e) {
+            if (ActiveEditor == null) return;
+
+            if (ActiveEditor.TextAlign == HorizontalAlignment.Left)
+                ActiveEditor.TextAlign = HorizontalAlignment.Right;
+            else if (ActiveEditor.TextAlign == HorizontalAlignment.Right)
+                ActiveEditor.TextAlign = HorizontalAlignment.Center;
+            else
+                ActiveEditor.TextAlign = HorizontalAlignment.Left;
+        }
+
+        private FileProperties findFileProperties(TabPage tab) {
+            foreach (Control ctrl in tab.Controls) 
+                if (ctrl.Tag == PROPERTIES_TAG) 
+                    return (FileProperties)ctrl;
+
+            return null;
+        }
+
+        private void mnuViewFileProperties_Click(object sender, EventArgs e) {
+            if (ActiveEditor == null) return;
+
+            var fileProperties = findFileProperties(CurrentTabPage);
+            if (fileProperties != null)
+                return;
+
+            fileProperties = new FileProperties(ActiveEditor) {
+                Dock = DockStyle.Left,
+                Width = 300
+            };
+            fileProperties.Tag = PROPERTIES_TAG;
+            fileProperties.OnWindowClose = FileProperties_OnWindowClose;
+            CurrentTabPage.Controls.Add(fileProperties);
+        }
+
+        private void FileProperties_OnWindowClose(object sender, EventArgs e) {
+            if (ActiveEditor == null) return;
+
+            var fileProperties = findFileProperties(CurrentTabPage);
+            if(fileProperties != null) {
+                CurrentTabPage.Controls.Remove(fileProperties);
+            }
+            //foreach(Control ctrl in CurrentTabPage.Controls) {
+            //    if (ctrl.Tag == PROPERTIES_TAG) {
+            //        CurrentTabPage.Controls.Remove(ctrl);
+            //        break;
+            //    }
+            //}
+        }
+
+        private void mnuHelpAbout_Click(object sender, EventArgs e) {
+            new AboutForm().ShowDialog();
+        }
+
+        private void mnuViewAlwaysOnTop_Click(object sender, EventArgs e) {
+            TopMost = !TopMost;
+            mnuViewAlwaysOnTop.Checked = !mnuViewAlwaysOnTop.Checked;
         }
     }
 }
