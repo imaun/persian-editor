@@ -36,10 +36,11 @@ namespace Farcin.Editor.Core.Services {
                     FontSize = edt.Font.Size,
                     ForeColor = ColorTranslator.ToWin32(edt.ForeColor),
                     IsRtl = edt.Rtl,
-                    Saved = edt.File.SavedToHard
+                    Saved = edt.File.SavedToHard,
+                    HasPendingChanges = edt.File.Changed
                 };
                 if(edt.File.Changed) {
-                    setting.TempFilePath = $"{_directory}//{Guid.NewGuid()}.ats";
+                    setting.TempFilePath = $"{_directory}\\{Guid.NewGuid()}.ats";
                     TxtProcessor.WriteToFile(setting.TempFilePath, edt.Text);
                 }
                 result.Add(setting);

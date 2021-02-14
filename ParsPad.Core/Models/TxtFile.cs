@@ -31,8 +31,12 @@ namespace Farcin.Editor.Core.Models {
         private string _name;
         public string Name { 
             get {
+                if (IsTempFile)
+                    return _name;
+
                 if(!string.IsNullOrEmpty(Path))
                     return Path.Substring(Path.LastIndexOf("\\")+1);
+
                 return _name;
             }
             set { _name = value; }
@@ -45,6 +49,7 @@ namespace Farcin.Editor.Core.Models {
         public string ReplaceString { get; set; }
         public bool CancelSaveDialog { get; set; }
         public bool CanClose { get; set; }
+        public bool IsTempFile { get; set; }
         public bool HasValidFilePath {
             get {
                 if (string.IsNullOrEmpty(Path))

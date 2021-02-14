@@ -62,9 +62,18 @@ namespace Farcin.Editor.Core.Models {
         }
 
         #region Properties
-        public string Title => File != null && File.HasValidFilePath
-            ? File.Name
-            : $"{NEW_FILE_TITLE}{CurrentCounter}";
+        //public string Title =>  File != null && File.HasValidFilePath
+        //    ? File.Name
+        //    : $"{NEW_FILE_TITLE}{CurrentCounter}";
+
+        public string Title {
+            get {
+                if (File != null && (File.IsTempFile || File.HasValidFilePath))
+                    return File.Name;
+
+                return $"{NEW_FILE_TITLE}{CurrentCounter}";
+            }
+        }
 
         public TabPage TabPage { get; set; }
         protected TextBox Editor { get; set; }
@@ -207,7 +216,8 @@ namespace Farcin.Editor.Core.Models {
                 Dock = DockStyle.Fill,
                 ScrollBars = ScrollBars.Vertical,
                 BackColor = Color.Black,
-                ForeColor = Color.White
+                ForeColor = Color.White,
+                AcceptsTab = true
             };
             //CreateCaret(Editor.Handle, IntPtr.Zero, 10, Editor.Height);
             //ShowCaret(Editor.Handle);

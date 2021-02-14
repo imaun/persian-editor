@@ -2,9 +2,14 @@
 using Newtonsoft.Json;
 
 namespace Farcin.Editor.Core.Models.Setting {
+    
+    /// <summary>
+    /// Keep settings for a Text File.
+    /// </summary>
     public class TxtFileSetting {
 
         private readonly FontConverter _fontConv;
+
         public TxtFileSetting() {
             _fontConv = new FontConverter();
         }
@@ -25,5 +30,6 @@ namespace Farcin.Editor.Core.Models.Setting {
         public Color BackColorValue => ColorTranslator.FromWin32(BackColor);
         public bool IsRtl { get; set; }
         public int CurrentLine { get; set; }
+        public bool HasPendingChanges { get; set; }
     }
 }

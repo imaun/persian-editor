@@ -100,17 +100,16 @@ namespace Farcin.Editor {
             if (file == null) file = new TxtFile();
             var editor = new TxtEditor(tab, Tabs.TabPages.Count, file, Editors.Count, mnuEditor) {
                 Editor_TextChanged = Editor_TextChanged,
-                Editor_StatusChanged = Editor_StatusChanged,
-                BackColor = _appSettings.DefaultFileSetting.BackColorValue,
-                Font = _appSettings.DefaultFileSetting.Font,
-                ForeColor = _appSettings.DefaultFileSetting.ForeColorValue,
-                Rtl = _appSettings.DefaultFileSetting.IsRtl,
+                Editor_StatusChanged = Editor_StatusChanged
             };
+            editor.ApplySetting(_appSettings.DefaultFileSetting);
             Splitter splitter = new Splitter {
                 Dock = DockStyle.Left
             };
             tab.Controls.Add(splitter);
             tab.ToolTipText = file.Path;
+            if (file.Changed)
+                tab.Text += "*";
             Tabs.TabPages.Add(tab);
             Tabs.SelectedIndex = Tabs.TabPages.Count - 1;
             editor.Focus();
@@ -134,6 +133,22 @@ namespace Farcin.Editor {
         }
 
         private void RemoveEditor(int index) {
+            var editorToRemove = Editors[index];
+            if(editorToRemove.File.SavedToHard) {
+                if (!_appSettings.HasRecentFiles)
+                    _appSettings.RecentFiles = new List<TxtFileSetting>();
+                _appSettings.RecentFiles.Add(new TxtFileSetting {
+                    BackColor = ColorTranslator.ToWin32(editorToRemove.BackColor),
+                    CurrentLine = editorToRemove.CurrentLineIndex,
+                    FilePath = editorToRemove.File.Path,
+                    FontName = editorToRemove.Font.Name,
+                    FontSize = editorToRemove.FontSize,
+                    ForeColor = ColorTranslator.ToWin32(editorToRemove.ForeColor),
+                    IsRtl = editorToRemove.Rtl,
+                    Name = editorToRemove.Title
+                });
+            }
+            
             Editors.RemoveAt(index);
             Tabs.TabPages.RemoveAt(index);
         }
@@ -302,12 +317,13 @@ namespace Farcin.Editor {
                 foreach(var openedFile in _appSettings.OpenedFiles) {
                     var file = new TxtFile {
                         Name = openedFile.Name,
-                        Changed = !openedFile.Saved,
-                        Path = !string.IsNullOrEmpty(openedFile.FilePath)
-                            ? openedFile.FilePath
-                            : openedFile.TempFilePath,
+                        Changed = openedFile.HasPendingChanges,
+                        IsTempFile = !string.IsNullOrEmpty(openedFile.TempFilePath),
                         SavedToHard = openedFile.Saved,
                     };
+                    file.Path = file.IsTempFile
+                        ? openedFile.TempFilePath
+                        : openedFile.FilePath;
                     file.Text = TxtProcessor.ReadFileText(file.Path);
                     var editor = CreateTab(file);
                     editor.ApplySetting(openedFile);

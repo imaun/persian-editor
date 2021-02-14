@@ -191,7 +191,7 @@
             this.Menubar.Location = new System.Drawing.Point(0, 0);
             this.Menubar.Name = "Menubar";
             this.Menubar.Padding = new System.Windows.Forms.Padding(7, 3, 0, 3);
-            this.Menubar.Size = new System.Drawing.Size(779, 27);
+            this.Menubar.Size = new System.Drawing.Size(1022, 27);
             this.Menubar.TabIndex = 0;
             this.Menubar.Text = "menuStrip1";
             // 
@@ -482,7 +482,7 @@
             this.mnuEditLineDuplicate.Name = "mnuEditLineDuplicate";
             this.mnuEditLineDuplicate.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
             this.mnuEditLineDuplicate.Size = new System.Drawing.Size(200, 22);
-            this.mnuEditLineDuplicate.Text = "داپلیکیت!";
+            this.mnuEditLineDuplicate.Text = "تکرار خط";
             this.mnuEditLineDuplicate.Click += new System.EventHandler(this.mnuEditLineDuplicate_Click);
             // 
             // toolStripMenuItem7
@@ -973,9 +973,9 @@
             this.Statusbar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.Statusbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatus});
-            this.Statusbar.Location = new System.Drawing.Point(0, 373);
+            this.Statusbar.Location = new System.Drawing.Point(0, 588);
             this.Statusbar.Name = "Statusbar";
-            this.Statusbar.Size = new System.Drawing.Size(779, 22);
+            this.Statusbar.Size = new System.Drawing.Size(1022, 22);
             this.Statusbar.TabIndex = 1;
             this.Statusbar.Text = "statusStrip1";
             // 
@@ -1007,7 +1007,7 @@
             this.tolZoomOut});
             this.Toolbar.Location = new System.Drawing.Point(0, 27);
             this.Toolbar.Name = "Toolbar";
-            this.Toolbar.Size = new System.Drawing.Size(779, 37);
+            this.Toolbar.Size = new System.Drawing.Size(1022, 37);
             this.Toolbar.TabIndex = 2;
             this.Toolbar.Text = "toolStrip1";
             // 
@@ -1169,7 +1169,7 @@
             this.Tabs.Name = "Tabs";
             this.Tabs.RightToLeftLayout = true;
             this.Tabs.SelectedIndex = 0;
-            this.Tabs.Size = new System.Drawing.Size(779, 281);
+            this.Tabs.Size = new System.Drawing.Size(1022, 496);
             this.Tabs.TabIndex = 0;
             this.Tabs.SelectedIndexChanged += new System.EventHandler(this.Tabs_SelectedIndexChanged);
             this.Tabs.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Tabs_MouseDown);
@@ -1297,7 +1297,7 @@
             this.toolStripButton1});
             this.ToolbarEdit.Location = new System.Drawing.Point(0, 64);
             this.ToolbarEdit.Name = "ToolbarEdit";
-            this.ToolbarEdit.Size = new System.Drawing.Size(779, 25);
+            this.ToolbarEdit.Size = new System.Drawing.Size(1022, 25);
             this.ToolbarEdit.TabIndex = 5;
             this.ToolbarEdit.Text = "toolStrip1";
             // 
@@ -1380,7 +1380,7 @@
             this.btnCloseCurrentTab.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCloseCurrentTab.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnCloseCurrentTab.Image = ((System.Drawing.Image)(resources.GetObject("btnCloseCurrentTab.Image")));
-            this.btnCloseCurrentTab.Location = new System.Drawing.Point(749, 29);
+            this.btnCloseCurrentTab.Location = new System.Drawing.Point(992, 29);
             this.btnCloseCurrentTab.Name = "btnCloseCurrentTab";
             this.btnCloseCurrentTab.Size = new System.Drawing.Size(25, 24);
             this.btnCloseCurrentTab.TabIndex = 4;
@@ -1391,7 +1391,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(779, 395);
+            this.ClientSize = new System.Drawing.Size(1022, 610);
             this.Controls.Add(this.ToolbarEdit);
             this.Controls.Add(this.Tabs);
             this.Controls.Add(this.btnCloseCurrentTab);
