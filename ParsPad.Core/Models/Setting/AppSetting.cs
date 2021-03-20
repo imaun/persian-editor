@@ -27,6 +27,10 @@ namespace Farcin.Editor.Core.Models.Setting {
         public TxtFileSetting DefaultFileSetting { get; set; }
         public EditorSetting Editor { get; set; }
         public UserInterfaceSetting UserInterface { get; set; }
+        public bool KeepOpenFilesAfterExit { get; set; }
+        public bool ViewToolBar { get; set; }
+        public bool ViewEditBar { get; set; }
+        public bool ViewStatusBar { get; set; }
 
         #endregion
 
@@ -84,7 +88,8 @@ namespace Farcin.Editor.Core.Models.Setting {
                     FontName = fontConverter.ConvertToString(defaultFont),
                     FontSize = 12,
                     IsRtl = true,
-                    Saved = false
+                    Saved = false,
+                    TextAlign = HorizontalAlignment.Left
                 },
                 Editor = new EditorSetting {
                     AutoSave = false,

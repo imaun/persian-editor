@@ -78,13 +78,13 @@ namespace Farcin.Editor {
             Editors = new List<TxtEditor>();
             _appSettings = AppSetting.Load();
             findForm.Disposed += FindForm_Disposed;
+            MouseWheel += MainForm_MouseWheel;
+            applySettings();
             MainWindowState.FullScreen = false;
             MainWindowState.LastHeight = Height;
             MainWindowState.LastWidth = Width;
             MainWindowState.LastLeftPosition = Left;
             MainWindowState.LastTopPosition = Top;
-            MouseWheel += MainForm_MouseWheel;
-            applySettings();
         }
 
         private TxtEditor CreateTab(TxtFile file = null) {
@@ -153,6 +153,18 @@ namespace Farcin.Editor {
             Tabs.TabPages.RemoveAt(index);
         }
 
+        private DialogResult confirmSaveChangedFile(TxtFile file = null) {
+            string filename = "";
+            if (file != null)
+                filename = file.Name;
+
+            return MessageBox.Show(
+                        $"فایل '{filename}' تغییر یافته، مایل به ذخیره فایل هستید؟",
+                        "ذخیره",
+                        MessageBoxButtons.YesNoCancel,
+                        MessageBoxIcon.Question);
+        }
+
         private bool CloseTab(int index) {
             var result = false;
             if (index < Editors.Count) {
@@ -164,11 +176,7 @@ namespace Farcin.Editor {
 
                 if(editor.File.CanClose && editor.File.Changed) {
                     Tabs.SelectedIndex = index;
-                    var msgRes = MessageBox.Show(
-                        $"فایل '{editor.File.Name}' تغییر یافته، مایل به ذخیره فایل هستید؟",
-                        "ذخیره",
-                        MessageBoxButtons.YesNoCancel,
-                        MessageBoxIcon.Question);
+                    var msgRes = confirmSaveChangedFile(editor.File);
 
                     switch(msgRes) {
                         case DialogResult.Cancel:
@@ -359,6 +367,14 @@ namespace Farcin.Editor {
             _appSettings.Save();
         }
 
+        private FileProperties findFileProperties(TabPage tab) {
+            foreach (Control ctrl in tab.Controls)
+                if (ctrl.Tag == PROPERTIES_TAG)
+                    return (FileProperties)ctrl;
+
+            return null;
+        }
+
         #endregion
 
         private void Editor_TextChanged(object sender, EventArgs e)
@@ -435,18 +451,15 @@ namespace Farcin.Editor {
             SaveAllFiles();
         }
 
-        private void mnuFileClose_Click(object sender, EventArgs e)
-        {
+        private void mnuFileClose_Click(object sender, EventArgs e) {
             if (ActiveEditor == null) return;
+
             if (ActiveEditor.File.Changed) {
-                var result = MessageBox.Show("فایل تغییر یافته، مایل به ذخیره کردن هستید؟", "ذخیره",
-                                                      MessageBoxButtons.YesNoCancel,
-                                                      MessageBoxIcon.Question);
-                switch (result)
-                {
+                var result = confirmSaveChangedFile(ActiveEditor.File);
+                switch (result) {
                     case DialogResult.Yes:
                         SaveCurrentFile();
-                        if(!ActiveEditor.File.CancelSaveDialog)
+                        if (!ActiveEditor.File.CancelSaveDialog)
                             CloseCurrentTab();
                         break;
                     case DialogResult.No:
@@ -457,6 +470,7 @@ namespace Farcin.Editor {
                 }
                 return;
             }
+
             CloseCurrentTab();
         }
 
@@ -473,9 +487,10 @@ namespace Farcin.Editor {
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e) {
-            saveSettings();
-            
-            //e.Cancel = !CloseAllTabs(onExitApp: true);
+            if(_appSettings.KeepOpenFilesAfterExit)
+                saveSettings();
+            else
+                e.Cancel = !CloseAllTabs(onExitApp: true);
         }
 
         private void mnuEditCut_Click(object sender, EventArgs e) {
@@ -692,6 +707,16 @@ namespace Farcin.Editor {
             mnuViewToolbarEdit.Checked = ToolbarEdit.Visible;
             mnuViewRightToLeft.Checked = ActiveEditor.Rtl;
             mnuViewLeftToRight.Checked = !ActiveEditor.Rtl;
+            if(ActiveEditor.Rtl) {
+                mnuViewAlignLeft.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Right;
+                mnuViewAlignRight.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Left;
+                mnuViewAlignCenter.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Center;
+            }
+            else {
+                mnuViewAlignLeft.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Left;
+                mnuViewAlignRight.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Right;
+                mnuViewAlignCenter.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Center;
+            }
         }
 
         private void mnuViewToolbar_Click(object sender, EventArgs e) {
@@ -736,16 +761,58 @@ namespace Farcin.Editor {
             if (ActiveEditor == null) return;
 
             ActiveEditor.Rtl = true;
-            mnuViewRightToLeft.Checked = mnuEditorViewRtl.Checked = true;
-            mnuViewLeftToRight.Checked = mnuEditorViewLtr.Checked = false;
+            mnuViewRightToLeft.Checked =
+                tolViewRightToLeft.Checked
+                = mnuEditorViewRtl.Checked = true;
+            mnuViewLeftToRight.Checked =
+                tolViewLeftToRight.Checked =
+                mnuEditorViewLtr.Checked = false;
+
+            if (mnuViewAlignRight.Checked) {
+                ActiveEditor.TextAlign = HorizontalAlignment.Left;
+                mnuViewAlignRight.Checked = mnuEditorAlignRight.Checked = true;
+                mnuViewAlignLeft.Checked = mnuEditorAlignLeft.Checked = false;
+            }
+            else if (mnuViewAlignLeft.Checked) {
+                ActiveEditor.TextAlign = HorizontalAlignment.Right;
+                mnuViewAlignLeft.Checked = mnuEditorAlignLeft.Checked = true;
+                mnuViewAlignRight.Checked = mnuEditorAlignRight.Checked = false;
+            }
+
+            return;
+            if (ActiveEditor.TextAlign == HorizontalAlignment.Left) {
+                ActiveEditor.TextAlign = HorizontalAlignment.Right;
+                mnuViewAlignLeft.Checked = mnuEditorAlignLeft.Checked = true;
+                mnuViewAlignRight.Checked = mnuEditorAlignRight.Checked = false;
+            }
+            else if(ActiveEditor.TextAlign == HorizontalAlignment.Right) {
+                ActiveEditor.TextAlign = HorizontalAlignment.Left;
+                mnuViewAlignRight.Checked = mnuEditorAlignRight.Checked = true;
+                mnuViewAlignLeft.Checked = mnuEditorAlignLeft.Checked = false;
+            }
         }
 
         private void mnuViewLeftToRight_Click(object sender, EventArgs e) {
             if (ActiveEditor == null) return;
 
             ActiveEditor.Rtl = false;
-            mnuViewRightToLeft.Checked = mnuEditorViewRtl.Checked = false;
-            mnuViewLeftToRight.Checked = mnuEditorViewLtr.Checked = true;
+            mnuViewRightToLeft.Checked = 
+                tolViewRightToLeft.Checked = 
+                mnuEditorViewRtl.Checked = false;
+            mnuViewLeftToRight.Checked = 
+                tolViewLeftToRight.Checked =
+                mnuEditorViewLtr.Checked = true;
+
+            if (mnuViewAlignRight.Checked) {
+                ActiveEditor.TextAlign = HorizontalAlignment.Right;
+                mnuViewAlignRight.Checked = mnuEditorAlignRight.Checked = true;
+                mnuViewAlignLeft.Checked = mnuEditorAlignLeft.Checked = false;
+            }
+            else if (mnuViewAlignLeft.Checked) {
+                ActiveEditor.TextAlign = HorizontalAlignment.Left;
+                mnuViewAlignLeft.Checked = mnuEditorAlignLeft.Checked = true;
+                mnuViewAlignRight.Checked = mnuEditorAlignRight.Checked = false;
+            }
         }
 
         private void mnuEditor_Opening(object sender, System.ComponentModel.CancelEventArgs e) {
@@ -754,6 +821,17 @@ namespace Farcin.Editor {
             mnuEditorUndo.Enabled = ActiveEditor.CanUndo;
             mnuEditorViewLtr.Checked = !ActiveEditor.Rtl;
             mnuEditorViewRtl.Checked = ActiveEditor.Rtl;
+            if(ActiveEditor.Text)
+            if (ActiveEditor.Rtl) {
+                mnuViewAlignLeft.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Right;
+                mnuViewAlignRight.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Left;
+                mnuViewAlignCenter.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Center;
+            }
+            else {
+                mnuViewAlignLeft.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Left;
+                mnuViewAlignRight.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Right;
+                mnuViewAlignCenter.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Center;
+            }
         }
 
         private void MainForm_MouseWheel(object sender, MouseEventArgs e) {
@@ -860,14 +938,6 @@ namespace Farcin.Editor {
                 ActiveEditor.TextAlign = HorizontalAlignment.Left;
         }
 
-        private FileProperties findFileProperties(TabPage tab) {
-            foreach (Control ctrl in tab.Controls) 
-                if (ctrl.Tag == PROPERTIES_TAG) 
-                    return (FileProperties)ctrl;
-
-            return null;
-        }
-
         private void mnuViewFileProperties_Click(object sender, EventArgs e) {
             if (ActiveEditor == null) return;
 
@@ -906,6 +976,41 @@ namespace Farcin.Editor {
         private void mnuViewAlwaysOnTop_Click(object sender, EventArgs e) {
             TopMost = !TopMost;
             mnuViewAlwaysOnTop.Checked = !mnuViewAlwaysOnTop.Checked;
+        }
+
+        private void mnuViewAlignRight_Click(object sender, EventArgs e) {
+            if (ActiveEditor == null) 
+                    return;
+
+            ActiveEditor.TextAlign = ActiveEditor.Rtl 
+                ? HorizontalAlignment.Left
+                : HorizontalAlignment.Right;
+            mnuViewAlignRight.Checked = mnuEditorAlignRight.Checked = true;
+            mnuViewAlignCenter.Checked = mnuViewAlignLeft.Checked 
+                = mnuEditorAlignCenter.Checked = mnuEditorAlignLeft.Checked = false;
+        }
+
+        private void mnuViewAlignCenter_Click(object sender, EventArgs e) {
+            if (ActiveEditor == null
+                || ActiveEditor.TextAlign == HorizontalAlignment.Center)
+                    return;
+
+            ActiveEditor.TextAlign = HorizontalAlignment.Center;
+            mnuViewAlignCenter.Checked = mnuEditorAlignCenter.Checked = true;
+            mnuViewAlignRight.Checked = mnuViewAlignLeft.Checked
+                = mnuEditorAlignRight.Checked = mnuEditorAlignLeft.Checked = false;
+        }
+
+        private void mnuViewAlignLeft_Click(object sender, EventArgs e) {
+            if (ActiveEditor == null)
+                return;
+
+            ActiveEditor.TextAlign = ActiveEditor.Rtl
+                ? HorizontalAlignment.Right
+                : HorizontalAlignment.Left;
+            mnuViewAlignLeft.Checked = mnuViewAlignLeft.Checked = true;
+            mnuViewAlignCenter.Checked = mnuViewAlignRight.Checked
+                = mnuEditorAlignCenter.Checked = mnuEditorAlignRight.Checked = false;
         }
     }
 }

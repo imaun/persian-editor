@@ -123,6 +123,8 @@ namespace Farcin.Editor.Core.Models {
 
         #region Editor Properties
 
+        public bool IsEmpty => string.IsNullOrEmpty(Text);
+
         public int CurrentLineNumber => CurrentLineIndex +1;
         public int CurrentColumnNumber => 
             Editor.SelectionStart - Editor.GetFirstCharIndexFromLine(CurrentLineIndex);
@@ -443,6 +445,7 @@ namespace Farcin.Editor.Core.Models {
             ForeColor = setting.ForeColorValue;
             Rtl = setting.IsRtl;
             GoToLine(setting.CurrentLine);
+            TextAlign = setting.TextAlign;
         }
 
        

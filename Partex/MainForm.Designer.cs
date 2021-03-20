@@ -94,6 +94,10 @@
             this.mnuViewRightToLeft = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuViewLeftToRight = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem15 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuViewAlignRight = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuViewAlignCenter = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuViewAlignLeft = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuViewBackColor = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuViewFileProperties = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuInsert = new System.Windows.Forms.ToolStripMenuItem();
@@ -157,6 +161,9 @@
             this.mnuEditorViewLtr = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem19 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuEditorAlignRight = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuEditorAlignCenter = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuEditorAlignLeft = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuEditorFont = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolbarEdit = new System.Windows.Forms.ToolStrip();
             this.tolEditUndo = new System.Windows.Forms.ToolStripButton();
@@ -166,8 +173,8 @@
             this.tolEditPaste = new System.Windows.Forms.ToolStripButton();
             this.tolEditDelete = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.tolEditSelectAll = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.tolViewRightToLeft = new System.Windows.Forms.ToolStripButton();
+            this.tolViewLeftToRight = new System.Windows.Forms.ToolStripButton();
             this.btnCloseCurrentTab = new System.Windows.Forms.Button();
             this.Menubar.SuspendLayout();
             this.Statusbar.SuspendLayout();
@@ -618,6 +625,10 @@
             this.mnuViewRightToLeft,
             this.mnuViewLeftToRight,
             this.toolStripMenuItem15,
+            this.mnuViewAlignRight,
+            this.mnuViewAlignCenter,
+            this.mnuViewAlignLeft,
+            this.toolStripSeparator9,
             this.mnuViewBackColor,
             this.mnuViewFileProperties});
             this.mnuView.Name = "mnuView";
@@ -736,6 +747,32 @@
             // 
             this.toolStripMenuItem15.Name = "toolStripMenuItem15";
             this.toolStripMenuItem15.Size = new System.Drawing.Size(241, 6);
+            // 
+            // mnuViewAlignRight
+            // 
+            this.mnuViewAlignRight.Name = "mnuViewAlignRight";
+            this.mnuViewAlignRight.Size = new System.Drawing.Size(244, 22);
+            this.mnuViewAlignRight.Text = "تراز متن سمت راست";
+            this.mnuViewAlignRight.Click += new System.EventHandler(this.mnuViewAlignRight_Click);
+            // 
+            // mnuViewAlignCenter
+            // 
+            this.mnuViewAlignCenter.Name = "mnuViewAlignCenter";
+            this.mnuViewAlignCenter.Size = new System.Drawing.Size(244, 22);
+            this.mnuViewAlignCenter.Text = "تراز متن در مرکز";
+            this.mnuViewAlignCenter.Click += new System.EventHandler(this.mnuViewAlignCenter_Click);
+            // 
+            // mnuViewAlignLeft
+            // 
+            this.mnuViewAlignLeft.Name = "mnuViewAlignLeft";
+            this.mnuViewAlignLeft.Size = new System.Drawing.Size(244, 22);
+            this.mnuViewAlignLeft.Text = "تراز متن سمت چپ";
+            this.mnuViewAlignLeft.Click += new System.EventHandler(this.mnuViewAlignLeft_Click);
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(241, 6);
             // 
             // mnuViewBackColor
             // 
@@ -1190,96 +1227,118 @@
             this.mnuEditorViewLtr,
             this.toolStripMenuItem19,
             this.mnuEditorAlignRight,
+            this.mnuEditorAlignCenter,
+            this.mnuEditorAlignLeft,
+            this.toolStripSeparator10,
             this.mnuEditorFont});
             this.mnuEditor.Name = "mnuEditor";
             this.mnuEditor.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.mnuEditor.Size = new System.Drawing.Size(137, 248);
+            this.mnuEditor.Size = new System.Drawing.Size(137, 298);
             this.mnuEditor.Opening += new System.ComponentModel.CancelEventHandler(this.mnuEditor_Opening);
             // 
             // mnuEditorUndo
             // 
             this.mnuEditorUndo.Name = "mnuEditorUndo";
-            this.mnuEditorUndo.Size = new System.Drawing.Size(136, 22);
+            this.mnuEditorUndo.Size = new System.Drawing.Size(186, 22);
             this.mnuEditorUndo.Text = "لغو تغییر";
             this.mnuEditorUndo.Click += new System.EventHandler(this.mnuEditUndo_Click);
             // 
             // toolStripMenuItem16
             // 
             this.toolStripMenuItem16.Name = "toolStripMenuItem16";
-            this.toolStripMenuItem16.Size = new System.Drawing.Size(133, 6);
+            this.toolStripMenuItem16.Size = new System.Drawing.Size(183, 6);
             // 
             // mnuEditorCut
             // 
             this.mnuEditorCut.Name = "mnuEditorCut";
-            this.mnuEditorCut.Size = new System.Drawing.Size(136, 22);
+            this.mnuEditorCut.Size = new System.Drawing.Size(186, 22);
             this.mnuEditorCut.Text = "برش";
             // 
             // mnuEditorCopy
             // 
             this.mnuEditorCopy.Name = "mnuEditorCopy";
-            this.mnuEditorCopy.Size = new System.Drawing.Size(136, 22);
+            this.mnuEditorCopy.Size = new System.Drawing.Size(186, 22);
             this.mnuEditorCopy.Text = "رونوشت";
             this.mnuEditorCopy.Click += new System.EventHandler(this.mnuEditCopy_Click);
             // 
             // mnuEditorPaste
             // 
             this.mnuEditorPaste.Name = "mnuEditorPaste";
-            this.mnuEditorPaste.Size = new System.Drawing.Size(136, 22);
+            this.mnuEditorPaste.Size = new System.Drawing.Size(186, 22);
             this.mnuEditorPaste.Text = "چسباندن";
             this.mnuEditorPaste.Click += new System.EventHandler(this.mnuEditPaste_Click);
             // 
             // toolStripMenuItem17
             // 
             this.toolStripMenuItem17.Name = "toolStripMenuItem17";
-            this.toolStripMenuItem17.Size = new System.Drawing.Size(133, 6);
+            this.toolStripMenuItem17.Size = new System.Drawing.Size(183, 6);
             // 
             // mnuEditorDelete
             // 
             this.mnuEditorDelete.Name = "mnuEditorDelete";
-            this.mnuEditorDelete.Size = new System.Drawing.Size(136, 22);
+            this.mnuEditorDelete.Size = new System.Drawing.Size(186, 22);
             this.mnuEditorDelete.Text = "حذف";
             this.mnuEditorDelete.Click += new System.EventHandler(this.mnuEditDelete_Click);
             // 
             // mnuEditorSelectAll
             // 
             this.mnuEditorSelectAll.Name = "mnuEditorSelectAll";
-            this.mnuEditorSelectAll.Size = new System.Drawing.Size(136, 22);
+            this.mnuEditorSelectAll.Size = new System.Drawing.Size(186, 22);
             this.mnuEditorSelectAll.Text = "انتخاب همه";
             this.mnuEditorSelectAll.Click += new System.EventHandler(this.mnuEditSelectAll_Click);
             // 
             // toolStripMenuItem18
             // 
             this.toolStripMenuItem18.Name = "toolStripMenuItem18";
-            this.toolStripMenuItem18.Size = new System.Drawing.Size(133, 6);
+            this.toolStripMenuItem18.Size = new System.Drawing.Size(183, 6);
             // 
             // mnuEditorViewRtl
             // 
             this.mnuEditorViewRtl.Name = "mnuEditorViewRtl";
-            this.mnuEditorViewRtl.Size = new System.Drawing.Size(136, 22);
+            this.mnuEditorViewRtl.Size = new System.Drawing.Size(186, 22);
             this.mnuEditorViewRtl.Text = "راست به چپ";
+            this.mnuEditorViewRtl.Click += new System.EventHandler(this.mnuViewRightToLeft_Click);
             // 
             // mnuEditorViewLtr
             // 
             this.mnuEditorViewLtr.Name = "mnuEditorViewLtr";
-            this.mnuEditorViewLtr.Size = new System.Drawing.Size(136, 22);
+            this.mnuEditorViewLtr.Size = new System.Drawing.Size(186, 22);
             this.mnuEditorViewLtr.Text = "چپ به راست";
+            this.mnuEditorViewLtr.Click += new System.EventHandler(this.mnuViewLeftToRight_Click);
             // 
             // toolStripMenuItem19
             // 
             this.toolStripMenuItem19.Name = "toolStripMenuItem19";
-            this.toolStripMenuItem19.Size = new System.Drawing.Size(133, 6);
+            this.toolStripMenuItem19.Size = new System.Drawing.Size(183, 6);
             // 
             // mnuEditorAlignRight
             // 
             this.mnuEditorAlignRight.Name = "mnuEditorAlignRight";
-            this.mnuEditorAlignRight.Size = new System.Drawing.Size(136, 22);
+            this.mnuEditorAlignRight.Size = new System.Drawing.Size(186, 22);
             this.mnuEditorAlignRight.Text = "تراز راست";
             this.mnuEditorAlignRight.Click += new System.EventHandler(this.mnuEditorAlignRight_Click);
+            // 
+            // mnuEditorAlignCenter
+            // 
+            this.mnuEditorAlignCenter.Name = "mnuEditorAlignCenter";
+            this.mnuEditorAlignCenter.Size = new System.Drawing.Size(136, 22);
+            this.mnuEditorAlignCenter.Text = "تراز مرکز";
+            // 
+            // mnuEditorAlignLeft
+            // 
+            this.mnuEditorAlignLeft.Name = "mnuEditorAlignLeft";
+            this.mnuEditorAlignLeft.Size = new System.Drawing.Size(136, 22);
+            this.mnuEditorAlignLeft.Text = "تراز چپ";
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(183, 6);
             // 
             // mnuEditorFont
             // 
             this.mnuEditorFont.Name = "mnuEditorFont";
-            this.mnuEditorFont.Size = new System.Drawing.Size(136, 22);
+            this.mnuEditorFont.Size = new System.Drawing.Size(186, 22);
             this.mnuEditorFont.Text = "فونت...";
             this.mnuEditorFont.Click += new System.EventHandler(this.mnuViewFont_Click);
             // 
@@ -1293,8 +1352,8 @@
             this.tolEditPaste,
             this.tolEditDelete,
             this.toolStripSeparator7,
-            this.tolEditSelectAll,
-            this.toolStripButton1});
+            this.tolViewRightToLeft,
+            this.tolViewLeftToRight});
             this.ToolbarEdit.Location = new System.Drawing.Point(0, 64);
             this.ToolbarEdit.Name = "ToolbarEdit";
             this.ToolbarEdit.Size = new System.Drawing.Size(1022, 25);
@@ -1309,6 +1368,7 @@
             this.tolEditUndo.Name = "tolEditUndo";
             this.tolEditUndo.Size = new System.Drawing.Size(23, 22);
             this.tolEditUndo.Text = "لغو تغییر";
+            this.tolEditUndo.Click += new System.EventHandler(this.mnuEditUndo_Click);
             // 
             // toolStripSeparator6
             // 
@@ -1357,23 +1417,25 @@
             this.toolStripSeparator7.Name = "toolStripSeparator7";
             this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
             // 
-            // tolEditSelectAll
+            // tolViewRightToLeft
             // 
-            this.tolEditSelectAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tolEditSelectAll.Image = global::Farcin.Editor.Properties.Resources.icons8_select_all_161;
-            this.tolEditSelectAll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tolEditSelectAll.Name = "tolEditSelectAll";
-            this.tolEditSelectAll.Size = new System.Drawing.Size(23, 22);
-            this.tolEditSelectAll.Text = "انتخاب همه نوشته";
+            this.tolViewRightToLeft.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tolViewRightToLeft.Image = global::Farcin.Editor.Properties.Resources.icons8_sort_left_16;
+            this.tolViewRightToLeft.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tolViewRightToLeft.Name = "tolViewRightToLeft";
+            this.tolViewRightToLeft.Size = new System.Drawing.Size(23, 22);
+            this.tolViewRightToLeft.Text = "راست به چپ";
+            this.tolViewRightToLeft.Click += new System.EventHandler(this.mnuViewRightToLeft_Click);
             // 
-            // toolStripButton1
+            // tolViewLeftToRight
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
+            this.tolViewLeftToRight.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tolViewLeftToRight.Image = global::Farcin.Editor.Properties.Resources.icons8_sort_right_16;
+            this.tolViewLeftToRight.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tolViewLeftToRight.Name = "tolViewLeftToRight";
+            this.tolViewLeftToRight.Size = new System.Drawing.Size(23, 22);
+            this.tolViewLeftToRight.Text = "چپ به راست";
+            this.tolViewLeftToRight.Click += new System.EventHandler(this.mnuViewLeftToRight_Click);
             // 
             // btnCloseCurrentTab
             // 
@@ -1551,7 +1613,7 @@
         private System.Windows.Forms.ToolStripButton tolEditDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem15;
         private System.Windows.Forms.ToolStripMenuItem mnuViewBackColor;
-        private System.Windows.Forms.ToolStripButton tolEditSelectAll;
+        private System.Windows.Forms.ToolStripButton tolViewRightToLeft;
         private System.Windows.Forms.ToolStripButton tolSearchFind;
         private System.Windows.Forms.ToolStripButton tolSearchFindPrevious;
         private System.Windows.Forms.ToolStripButton tolSearchFindNext;
@@ -1560,9 +1622,16 @@
         private System.Windows.Forms.ToolStripButton tolViewZoomIn;
         private System.Windows.Forms.ToolStripButton tolZoomOut;
         private System.Windows.Forms.ToolStripMenuItem mnuViewToolbarEdit;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton tolViewLeftToRight;
         private System.Windows.Forms.ToolStripMenuItem mnuEditorAlignRight;
         private System.Windows.Forms.ToolStripMenuItem mnuViewFileProperties;
+        private System.Windows.Forms.ToolStripMenuItem mnuViewAlignRight;
+        private System.Windows.Forms.ToolStripMenuItem mnuViewAlignCenter;
+        private System.Windows.Forms.ToolStripMenuItem mnuViewAlignLeft;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.ToolStripMenuItem mnuEditorAlignCenter;
+        private System.Windows.Forms.ToolStripMenuItem mnuEditorAlignLeft;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
     }
 }
 

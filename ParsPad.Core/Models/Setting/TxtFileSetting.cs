@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using Newtonsoft.Json;
+using System.Windows.Forms;
 
 namespace Farcin.Editor.Core.Models.Setting {
     
@@ -14,6 +15,7 @@ namespace Farcin.Editor.Core.Models.Setting {
             _fontConv = new FontConverter();
         }
 
+        public int Order { get; set; }
         public string Name { get; set; }
         public string FilePath { get; set; }
         public string TempFilePath { get; set; }
@@ -31,5 +33,6 @@ namespace Farcin.Editor.Core.Models.Setting {
         public bool IsRtl { get; set; }
         public int CurrentLine { get; set; }
         public bool HasPendingChanges { get; set; }
+        public HorizontalAlignment TextAlign { get; set; }
     }
 }
