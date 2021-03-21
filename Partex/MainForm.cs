@@ -114,8 +114,6 @@ namespace Farcin.Editor {
             Tabs.SelectedIndex = Tabs.TabPages.Count - 1;
             editor.Focus();
             Editors.Add(editor);
-            UpdateStatus();
-            UpdateMenuAndToolbarItems();
 
             return editor;
         }
@@ -209,11 +207,13 @@ namespace Farcin.Editor {
             }
         }
 
-        private void UpdateMenuAndToolbarItems() {
+        private void UpdateToolbarItems() {
             if (ActiveEditor == null) return;
 
             var hasSelection = ActiveEditor.SelectionLength > 0;
-            mnuEditDelete.Enabled = mnuEditUnselect.Enabled = hasSelection;
+            tolEditCopy.Enabled 
+                = tolEditCut.Enabled = tolEditDelete.Enabled
+                = hasSelection;
 
             mnuEditUndo.Enabled = tolEditUndo.Enabled = ActiveEditor.CanUndo;
         }
@@ -337,6 +337,8 @@ namespace Farcin.Editor {
                     editor.ApplySetting(openedFile);
                 }
             }
+            UpdateStatus();
+            UpdateToolbarItems();
         }
 
 
@@ -380,7 +382,8 @@ namespace Farcin.Editor {
         private void Editor_TextChanged(object sender, EventArgs e)
         {
             UpdateStatus();
-            Editors[ActiveEditor.Index].File.Changed = true;
+            UpdateToolbarItems();
+            ActiveEditor.File.Changed = true;
 
             if(!Tabs.SelectedTab.Text.Contains("*"))
                 Tabs.SelectedTab.Text += "*";
@@ -413,10 +416,11 @@ namespace Farcin.Editor {
         }
 
         private void Tabs_SelectedIndexChanged(object sender, EventArgs e) {
-            UpdateStatus();
             if (ActiveEditor != null) {
                 ActiveEditor.Focus();
                 ActiveEditor.SelectionLength = 0;
+                UpdateStatus();
+                UpdateToolbarItems();
             }
         }
 
@@ -697,8 +701,14 @@ namespace Farcin.Editor {
         }
 
         private void mnuEdit_DropDownOpening(object sender, EventArgs e) {
-            mnuEditUndo.Enabled = ActiveEditor.CanUndo;
+            if (ActiveEditor == null) return;
 
+            bool hasSelection = ActiveEditor.SelectionLength > 0;
+            mnuEditUndo.Enabled = ActiveEditor.CanUndo;
+            mnuEditCopy.Enabled = mnuEditCut.Enabled = mnuEditDelete.Enabled
+                = hasSelection;
+            mnuEditSelectAll.Enabled = !ActiveEditor.IsEmpty;
+            mnuEditUnselect.Enabled = hasSelection;
         }
 
         private void mnuView_DropDownOpening(object sender, EventArgs e) {
@@ -818,19 +828,23 @@ namespace Farcin.Editor {
         private void mnuEditor_Opening(object sender, System.ComponentModel.CancelEventArgs e) {
             if (ActiveEditor == null) return;
 
+            bool hasSelection = ActiveEditor.SelectionLength > 0;
             mnuEditorUndo.Enabled = ActiveEditor.CanUndo;
             mnuEditorViewLtr.Checked = !ActiveEditor.Rtl;
             mnuEditorViewRtl.Checked = ActiveEditor.Rtl;
-            if(ActiveEditor.Text)
+            mnuEditorCopy.Enabled = mnuEditorCut.Enabled = mnuEditorDelete.Enabled
+                = hasSelection;
+            mnuEditorSelectAll.Enabled = !ActiveEditor.IsEmpty;
+
             if (ActiveEditor.Rtl) {
-                mnuViewAlignLeft.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Right;
-                mnuViewAlignRight.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Left;
-                mnuViewAlignCenter.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Center;
+                mnuEditorAlignLeft.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Right;
+                mnuEditorAlignRight.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Left;
+                mnuEditorAlignCenter.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Center;
             }
             else {
-                mnuViewAlignLeft.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Left;
-                mnuViewAlignRight.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Right;
-                mnuViewAlignCenter.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Center;
+                mnuEditorAlignLeft.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Left;
+                mnuEditorAlignRight.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Right;
+                mnuEditorAlignCenter.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Center;
             }
         }
 
@@ -928,14 +942,6 @@ namespace Farcin.Editor {
         }
 
         private void mnuEditorAlignRight_Click(object sender, EventArgs e) {
-            if (ActiveEditor == null) return;
-
-            if (ActiveEditor.TextAlign == HorizontalAlignment.Left)
-                ActiveEditor.TextAlign = HorizontalAlignment.Right;
-            else if (ActiveEditor.TextAlign == HorizontalAlignment.Right)
-                ActiveEditor.TextAlign = HorizontalAlignment.Center;
-            else
-                ActiveEditor.TextAlign = HorizontalAlignment.Left;
         }
 
         private void mnuViewFileProperties_Click(object sender, EventArgs e) {
@@ -996,7 +1002,8 @@ namespace Farcin.Editor {
                     return;
 
             ActiveEditor.TextAlign = HorizontalAlignment.Center;
-            mnuViewAlignCenter.Checked = mnuEditorAlignCenter.Checked = true;
+            mnuViewAlignCenter.Checked = mnuEditorAlignCenter.Checked
+                = tolViewAlignCenter.Checked = true;
             mnuViewAlignRight.Checked = mnuViewAlignLeft.Checked
                 = mnuEditorAlignRight.Checked = mnuEditorAlignLeft.Checked = false;
         }
@@ -1008,9 +1015,11 @@ namespace Farcin.Editor {
             ActiveEditor.TextAlign = ActiveEditor.Rtl
                 ? HorizontalAlignment.Right
                 : HorizontalAlignment.Left;
-            mnuViewAlignLeft.Checked = mnuViewAlignLeft.Checked = true;
+            mnuViewAlignLeft.Checked = mnuViewAlignLeft.Checked 
+                = tolViewAlignLeft.Checked = true;
             mnuViewAlignCenter.Checked = mnuViewAlignRight.Checked
-                = mnuEditorAlignCenter.Checked = mnuEditorAlignRight.Checked = false;
+                = mnuEditorAlignCenter.Checked = mnuEditorAlignRight.Checked 
+                = tolViewAlignCenter.Checked = tolViewAlignRight.Checked = false;
         }
     }
 }

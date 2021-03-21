@@ -162,6 +162,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="farcin-editor.ico" />
+    <None Include="Resources\icons8-align-center-161.png" />
+    <None Include="Resources\icons8-align-right-161.png" />
+    <None Include="Resources\icons8-align-right-16.png" />
+    <None Include="Resources\icons8-align-center-16.png" />
+    <None Include="Resources\icons8-align-left-16.png" />
     <None Include="Resources\icons8-zoom-out-30.png" />
     <None Include="Resources\icons8-zoom-in-30.png" />
     <None Include="Resources\icons8-lowercase-30.png" />
