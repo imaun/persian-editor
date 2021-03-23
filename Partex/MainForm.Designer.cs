@@ -112,6 +112,7 @@
             this.ToolbarEdit = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.tolEditUndo = new System.Windows.Forms.ToolStripButton();
             this.tolEditCut = new System.Windows.Forms.ToolStripButton();
             this.tolEditCopy = new System.Windows.Forms.ToolStripButton();
@@ -119,6 +120,9 @@
             this.tolEditDelete = new System.Windows.Forms.ToolStripButton();
             this.tolViewRightToLeft = new System.Windows.Forms.ToolStripButton();
             this.tolViewLeftToRight = new System.Windows.Forms.ToolStripButton();
+            this.tolViewAlignRight = new System.Windows.Forms.ToolStripButton();
+            this.tolViewAlignCenter = new System.Windows.Forms.ToolStripButton();
+            this.tolViewAlignLeft = new System.Windows.Forms.ToolStripButton();
             this.btnCloseCurrentTab = new System.Windows.Forms.Button();
             this.tolFileNew = new System.Windows.Forms.ToolStripButton();
             this.tolFileOpen = new System.Windows.Forms.ToolStripButton();
@@ -176,10 +180,8 @@
             this.mnuHelpContents = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelpWebsite = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.tolViewAlignRight = new System.Windows.Forms.ToolStripButton();
-            this.tolViewAlignCenter = new System.Windows.Forms.ToolStripButton();
-            this.tolViewAlignLeft = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuViewForeColor = new System.Windows.Forms.ToolStripMenuItem();
             this.Menubar.SuspendLayout();
             this.Statusbar.SuspendLayout();
             this.Toolbar.SuspendLayout();
@@ -447,6 +449,7 @@
             this.mnuViewStatusBar,
             this.toolStripMenuItem10,
             this.mnuViewFont,
+            this.mnuViewForeColor,
             this.mnuViewZoomIn,
             this.mnuViewZoomOut,
             this.toolStripMenuItem11,
@@ -620,7 +623,7 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(146, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // mnuHelp
             // 
@@ -636,7 +639,7 @@
             // toolStripMenuItem13
             // 
             this.toolStripMenuItem13.Name = "toolStripMenuItem13";
-            this.toolStripMenuItem13.Size = new System.Drawing.Size(134, 6);
+            this.toolStripMenuItem13.Size = new System.Drawing.Size(177, 6);
             // 
             // Statusbar
             // 
@@ -674,7 +677,8 @@
             this.toolStripSeparator8,
             this.tolViewFont,
             this.tolViewZoomIn,
-            this.tolZoomOut});
+            this.tolZoomOut,
+            this.toolStripSeparator12});
             this.Toolbar.Location = new System.Drawing.Point(0, 27);
             this.Toolbar.Name = "Toolbar";
             this.Toolbar.Size = new System.Drawing.Size(1022, 37);
@@ -742,6 +746,7 @@
             // 
             // mnuEditorUndo
             // 
+            this.mnuEditorUndo.Image = global::Farcin.Editor.Properties.Resources.icons8_undo_16;
             this.mnuEditorUndo.Name = "mnuEditorUndo";
             this.mnuEditorUndo.Size = new System.Drawing.Size(136, 22);
             this.mnuEditorUndo.Text = "لغو تغییر";
@@ -754,12 +759,14 @@
             // 
             // mnuEditorCut
             // 
+            this.mnuEditorCut.Image = global::Farcin.Editor.Properties.Resources.icons8_cut_16;
             this.mnuEditorCut.Name = "mnuEditorCut";
             this.mnuEditorCut.Size = new System.Drawing.Size(136, 22);
             this.mnuEditorCut.Text = "برش";
             // 
             // mnuEditorCopy
             // 
+            this.mnuEditorCopy.Image = global::Farcin.Editor.Properties.Resources.icons8_copy_16;
             this.mnuEditorCopy.Name = "mnuEditorCopy";
             this.mnuEditorCopy.Size = new System.Drawing.Size(136, 22);
             this.mnuEditorCopy.Text = "رونوشت";
@@ -767,6 +774,7 @@
             // 
             // mnuEditorPaste
             // 
+            this.mnuEditorPaste.Image = global::Farcin.Editor.Properties.Resources.icons8_paste_16;
             this.mnuEditorPaste.Name = "mnuEditorPaste";
             this.mnuEditorPaste.Size = new System.Drawing.Size(136, 22);
             this.mnuEditorPaste.Text = "چسباندن";
@@ -779,6 +787,7 @@
             // 
             // mnuEditorDelete
             // 
+            this.mnuEditorDelete.Image = global::Farcin.Editor.Properties.Resources.icons8_delete_16;
             this.mnuEditorDelete.Name = "mnuEditorDelete";
             this.mnuEditorDelete.Size = new System.Drawing.Size(136, 22);
             this.mnuEditorDelete.Text = "حذف";
@@ -786,6 +795,7 @@
             // 
             // mnuEditorSelectAll
             // 
+            this.mnuEditorSelectAll.Image = global::Farcin.Editor.Properties.Resources.icons8_select_all_16;
             this.mnuEditorSelectAll.Name = "mnuEditorSelectAll";
             this.mnuEditorSelectAll.Size = new System.Drawing.Size(136, 22);
             this.mnuEditorSelectAll.Text = "انتخاب همه";
@@ -798,6 +808,7 @@
             // 
             // mnuEditorViewRtl
             // 
+            this.mnuEditorViewRtl.Image = global::Farcin.Editor.Properties.Resources.icons8_sort_left_16;
             this.mnuEditorViewRtl.Name = "mnuEditorViewRtl";
             this.mnuEditorViewRtl.Size = new System.Drawing.Size(136, 22);
             this.mnuEditorViewRtl.Text = "راست به چپ";
@@ -805,6 +816,7 @@
             // 
             // mnuEditorViewLtr
             // 
+            this.mnuEditorViewLtr.Image = global::Farcin.Editor.Properties.Resources.icons8_sort_right_16;
             this.mnuEditorViewLtr.Name = "mnuEditorViewLtr";
             this.mnuEditorViewLtr.Size = new System.Drawing.Size(136, 22);
             this.mnuEditorViewLtr.Text = "چپ به راست";
@@ -817,6 +829,7 @@
             // 
             // mnuEditorAlignRight
             // 
+            this.mnuEditorAlignRight.Image = global::Farcin.Editor.Properties.Resources.icons8_align_right_161;
             this.mnuEditorAlignRight.Name = "mnuEditorAlignRight";
             this.mnuEditorAlignRight.Size = new System.Drawing.Size(136, 22);
             this.mnuEditorAlignRight.Text = "تراز راست";
@@ -824,6 +837,7 @@
             // 
             // mnuEditorAlignCenter
             // 
+            this.mnuEditorAlignCenter.Image = global::Farcin.Editor.Properties.Resources.icons8_align_center_161;
             this.mnuEditorAlignCenter.Name = "mnuEditorAlignCenter";
             this.mnuEditorAlignCenter.Size = new System.Drawing.Size(136, 22);
             this.mnuEditorAlignCenter.Text = "تراز مرکز";
@@ -831,6 +845,7 @@
             // 
             // mnuEditorAlignLeft
             // 
+            this.mnuEditorAlignLeft.Image = global::Farcin.Editor.Properties.Resources.icons8_align_left_16;
             this.mnuEditorAlignLeft.Name = "mnuEditorAlignLeft";
             this.mnuEditorAlignLeft.Size = new System.Drawing.Size(136, 22);
             this.mnuEditorAlignLeft.Text = "تراز چپ";
@@ -843,6 +858,7 @@
             // 
             // mnuEditorFont
             // 
+            this.mnuEditorFont.Image = global::Farcin.Editor.Properties.Resources.icons8_font_size_16;
             this.mnuEditorFont.Name = "mnuEditorFont";
             this.mnuEditorFont.Size = new System.Drawing.Size(136, 22);
             this.mnuEditorFont.Text = "فونت...";
@@ -879,6 +895,11 @@
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
             this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(6, 25);
             // 
             // tolEditUndo
             // 
@@ -946,6 +967,36 @@
             this.tolViewLeftToRight.Size = new System.Drawing.Size(23, 22);
             this.tolViewLeftToRight.Text = "چپ به راست";
             this.tolViewLeftToRight.Click += new System.EventHandler(this.mnuViewLeftToRight_Click);
+            // 
+            // tolViewAlignRight
+            // 
+            this.tolViewAlignRight.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tolViewAlignRight.Image = global::Farcin.Editor.Properties.Resources.icons8_align_right_161;
+            this.tolViewAlignRight.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tolViewAlignRight.Name = "tolViewAlignRight";
+            this.tolViewAlignRight.Size = new System.Drawing.Size(23, 22);
+            this.tolViewAlignRight.Text = "تراز متن سمت راست";
+            this.tolViewAlignRight.Click += new System.EventHandler(this.mnuViewAlignRight_Click);
+            // 
+            // tolViewAlignCenter
+            // 
+            this.tolViewAlignCenter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tolViewAlignCenter.Image = global::Farcin.Editor.Properties.Resources.icons8_align_center_161;
+            this.tolViewAlignCenter.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tolViewAlignCenter.Name = "tolViewAlignCenter";
+            this.tolViewAlignCenter.Size = new System.Drawing.Size(23, 22);
+            this.tolViewAlignCenter.Text = "تراز متن در مرکز";
+            this.tolViewAlignCenter.Click += new System.EventHandler(this.mnuViewAlignCenter_Click);
+            // 
+            // tolViewAlignLeft
+            // 
+            this.tolViewAlignLeft.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tolViewAlignLeft.Image = global::Farcin.Editor.Properties.Resources.icons8_align_left_16;
+            this.tolViewAlignLeft.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tolViewAlignLeft.Name = "tolViewAlignLeft";
+            this.tolViewAlignLeft.Size = new System.Drawing.Size(23, 22);
+            this.tolViewAlignLeft.Text = "تراز متن سمت چپ";
+            this.tolViewAlignLeft.Click += new System.EventHandler(this.mnuViewAlignLeft_Click);
             // 
             // btnCloseCurrentTab
             // 
@@ -1421,7 +1472,7 @@
             // 
             this.mnuToolsClipboard.Image = global::Farcin.Editor.Properties.Resources.icons8_survey_16;
             this.mnuToolsClipboard.Name = "mnuToolsClipboard";
-            this.mnuToolsClipboard.Size = new System.Drawing.Size(149, 22);
+            this.mnuToolsClipboard.Size = new System.Drawing.Size(180, 22);
             this.mnuToolsClipboard.Text = "حافظه مجازی";
             this.mnuToolsClipboard.Click += new System.EventHandler(this.mnuToolsClipboard_Click);
             // 
@@ -1429,73 +1480,51 @@
             // 
             this.toolStripMenuItem14.Image = global::Farcin.Editor.Properties.Resources.icons8_signal_16;
             this.toolStripMenuItem14.Name = "toolStripMenuItem14";
-            this.toolStripMenuItem14.Size = new System.Drawing.Size(149, 22);
+            this.toolStripMenuItem14.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem14.Text = "آمارگیری";
             // 
             // mnuToolsOptions
             // 
             this.mnuToolsOptions.Image = global::Farcin.Editor.Properties.Resources.icons8_gear_16;
             this.mnuToolsOptions.Name = "mnuToolsOptions";
-            this.mnuToolsOptions.Size = new System.Drawing.Size(149, 22);
+            this.mnuToolsOptions.Size = new System.Drawing.Size(180, 22);
             this.mnuToolsOptions.Text = "تنظیمات...";
+            this.mnuToolsOptions.Click += new System.EventHandler(this.mnuToolsOptions_Click);
             // 
             // mnuHelpContents
             // 
             this.mnuHelpContents.Image = global::Farcin.Editor.Properties.Resources.icons8_questions_16;
             this.mnuHelpContents.Name = "mnuHelpContents";
             this.mnuHelpContents.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.mnuHelpContents.Size = new System.Drawing.Size(137, 22);
+            this.mnuHelpContents.Size = new System.Drawing.Size(180, 22);
             this.mnuHelpContents.Text = "راهنما...";
             // 
             // mnuHelpWebsite
             // 
             this.mnuHelpWebsite.Image = global::Farcin.Editor.Properties.Resources.icons8_internet_16;
             this.mnuHelpWebsite.Name = "mnuHelpWebsite";
-            this.mnuHelpWebsite.Size = new System.Drawing.Size(137, 22);
+            this.mnuHelpWebsite.Size = new System.Drawing.Size(180, 22);
             this.mnuHelpWebsite.Text = "وب سایت";
             // 
             // mnuHelpAbout
             // 
             this.mnuHelpAbout.Image = global::Farcin.Editor.Properties.Resources.icons8_high_importance_16;
             this.mnuHelpAbout.Name = "mnuHelpAbout";
-            this.mnuHelpAbout.Size = new System.Drawing.Size(137, 22);
+            this.mnuHelpAbout.Size = new System.Drawing.Size(180, 22);
             this.mnuHelpAbout.Text = "درباره...";
             this.mnuHelpAbout.Click += new System.EventHandler(this.mnuHelpAbout_Click);
             // 
-            // toolStripSeparator11
+            // toolStripSeparator12
             // 
-            this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            this.toolStripSeparator12.Size = new System.Drawing.Size(6, 37);
             // 
-            // tolViewAlignRight
+            // mnuViewForeColor
             // 
-            this.tolViewAlignRight.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tolViewAlignRight.Image = global::Farcin.Editor.Properties.Resources.icons8_align_right_161;
-            this.tolViewAlignRight.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tolViewAlignRight.Name = "tolViewAlignRight";
-            this.tolViewAlignRight.Size = new System.Drawing.Size(23, 22);
-            this.tolViewAlignRight.Text = "تراز متن سمت راست";
-            this.tolViewAlignRight.Click += new System.EventHandler(this.mnuViewAlignRight_Click);
-            // 
-            // tolViewAlignCenter
-            // 
-            this.tolViewAlignCenter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tolViewAlignCenter.Image = global::Farcin.Editor.Properties.Resources.icons8_align_center_161;
-            this.tolViewAlignCenter.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tolViewAlignCenter.Name = "tolViewAlignCenter";
-            this.tolViewAlignCenter.Size = new System.Drawing.Size(23, 22);
-            this.tolViewAlignCenter.Text = "تراز متن در مرکز";
-            this.tolViewAlignCenter.Click += new System.EventHandler(this.mnuViewAlignCenter_Click);
-            // 
-            // tolViewAlignLeft
-            // 
-            this.tolViewAlignLeft.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tolViewAlignLeft.Image = global::Farcin.Editor.Properties.Resources.icons8_align_left_16;
-            this.tolViewAlignLeft.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tolViewAlignLeft.Name = "tolViewAlignLeft";
-            this.tolViewAlignLeft.Size = new System.Drawing.Size(23, 22);
-            this.tolViewAlignLeft.Text = "تراز متن سمت چپ";
-            this.tolViewAlignLeft.Click += new System.EventHandler(this.mnuViewAlignLeft_Click);
+            this.mnuViewForeColor.Name = "mnuViewForeColor";
+            this.mnuViewForeColor.Size = new System.Drawing.Size(244, 22);
+            this.mnuViewForeColor.Text = "رنگ نوشته";
+            this.mnuViewForeColor.Click += new System.EventHandler(this.mnuViewForeColor_Click);
             // 
             // MainForm
             // 
@@ -1684,6 +1713,8 @@
         private System.Windows.Forms.ToolStripButton tolViewAlignRight;
         private System.Windows.Forms.ToolStripButton tolViewAlignCenter;
         private System.Windows.Forms.ToolStripButton tolViewAlignLeft;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
+        private System.Windows.Forms.ToolStripMenuItem mnuViewForeColor;
     }
 }
 

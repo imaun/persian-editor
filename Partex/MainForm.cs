@@ -9,6 +9,7 @@ using Farcin.Editor.Core.Models.Types;
 using Farcin.Editor.Forms;
 using Farcin.Editor.Controls;
 using Farcin.Editor.Core.Services;
+using System.Text;
 
 namespace Farcin.Editor {
 
@@ -37,11 +38,15 @@ namespace Farcin.Editor {
             set => lblStatus.Text = value;
         }
 
-        public TabPage CurrentTabPage => Tabs.SelectedTab;
+        public TabPage CurrentTabPage => Tabs.TabPages.Count > 0 
+            ? Tabs.SelectedTab
+            : null;
 
         public TxtEditor ActiveEditor {
             get {
                 try {
+                    if (CurrentTabPage == null)
+                        return null;
                     return CurrentTabPage != null
                         ? Editors[ActiveEditorIndex]
                         : null;
@@ -73,18 +78,34 @@ namespace Farcin.Editor {
 
         #region Methods
 
+        private void fizzBuzzTest() {
+            var sb = new StringBuilder();
+            for(int i = 1; i <= 100; i++) {
+                string line = "";
+                if (i % 3 == 0) line = "Fizz";
+                if (i % 5 == 0) line += "Buzz";
+                if (string.IsNullOrEmpty(line))
+                    line = i.ToString();
+                sb.AppendLine(line);
+            }
+
+            ActiveEditor.Text = sb.ToString();
+        }
+
         private void StartUp() {
             this.Text = APP_TITLE;
             Editors = new List<TxtEditor>();
             _appSettings = AppSetting.Load();
             findForm.Disposed += FindForm_Disposed;
             MouseWheel += MainForm_MouseWheel;
+            UpdateToolbarItems();
             applySettings();
             MainWindowState.FullScreen = false;
             MainWindowState.LastHeight = Height;
             MainWindowState.LastWidth = Width;
             MainWindowState.LastLeftPosition = Left;
             MainWindowState.LastTopPosition = Top;
+            fizzBuzzTest();
         }
 
         private TxtEditor CreateTab(TxtFile file = null) {
@@ -114,6 +135,7 @@ namespace Farcin.Editor {
             Tabs.SelectedIndex = Tabs.TabPages.Count - 1;
             editor.Focus();
             Editors.Add(editor);
+            UpdateToolbarItems();
 
             return editor;
         }
@@ -216,6 +238,18 @@ namespace Farcin.Editor {
                 = hasSelection;
 
             mnuEditUndo.Enabled = tolEditUndo.Enabled = ActiveEditor.CanUndo;
+
+            tolViewRightToLeft.Checked = ActiveEditor.Rtl;
+            tolViewLeftToRight.Checked = !ActiveEditor.Rtl;
+            tolViewAlignCenter.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Center;
+            if(ActiveEditor.Rtl) {
+                tolViewAlignLeft.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Right;
+                tolViewAlignRight.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Left;
+            }
+            else {
+                tolViewAlignLeft.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Left;
+                tolViewAlignRight.Checked = ActiveEditor.TextAlign == HorizontalAlignment.Right;
+            }
         }
 
         public void SetFont(Font font) {
@@ -991,9 +1025,11 @@ namespace Farcin.Editor {
             ActiveEditor.TextAlign = ActiveEditor.Rtl 
                 ? HorizontalAlignment.Left
                 : HorizontalAlignment.Right;
-            mnuViewAlignRight.Checked = mnuEditorAlignRight.Checked = true;
+            mnuViewAlignRight.Checked = mnuEditorAlignRight.Checked 
+                = tolViewAlignRight.Checked = true;
             mnuViewAlignCenter.Checked = mnuViewAlignLeft.Checked 
-                = mnuEditorAlignCenter.Checked = mnuEditorAlignLeft.Checked = false;
+                = mnuEditorAlignCenter.Checked = mnuEditorAlignLeft.Checked
+                = tolViewAlignCenter.Checked = tolViewAlignLeft.Checked = false;
         }
 
         private void mnuViewAlignCenter_Click(object sender, EventArgs e) {
@@ -1005,7 +1041,8 @@ namespace Farcin.Editor {
             mnuViewAlignCenter.Checked = mnuEditorAlignCenter.Checked
                 = tolViewAlignCenter.Checked = true;
             mnuViewAlignRight.Checked = mnuViewAlignLeft.Checked
-                = mnuEditorAlignRight.Checked = mnuEditorAlignLeft.Checked = false;
+                = mnuEditorAlignRight.Checked = mnuEditorAlignLeft.Checked 
+                = tolViewAlignRight.Checked = tolViewAlignLeft.Checked = false;
         }
 
         private void mnuViewAlignLeft_Click(object sender, EventArgs e) {
@@ -1020,6 +1057,24 @@ namespace Farcin.Editor {
             mnuViewAlignCenter.Checked = mnuViewAlignRight.Checked
                 = mnuEditorAlignCenter.Checked = mnuEditorAlignRight.Checked 
                 = tolViewAlignCenter.Checked = tolViewAlignRight.Checked = false;
+        }
+
+        private void mnuToolsOptions_Click(object sender, EventArgs e) {
+            using(var settingForm = new SettingForm()) {
+                settingForm.ShowDialog();
+            }
+        }
+
+        private void mnuViewForeColor_Click(object sender, EventArgs e) {
+            if (ActiveEditor == null) return;
+
+            using(var colorDlg = new ColorDialog()) {
+                colorDlg.FullOpen = true;
+                colorDlg.Color = ActiveEditor.ForeColor;
+                if(colorDlg.ShowDialog() == DialogResult.OK) {
+                    ActiveEditor.ForeColor = colorDlg.Color;
+                }
+            }
         }
     }
 }
