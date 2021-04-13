@@ -76,8 +76,8 @@ namespace Farcin.Editor.Core.Models.Setting {
 
         private static AppSetting getDefaultSetting() {
             var fontConverter = new FontConverter();
-            var backColor = SystemColors.Window; 
-            var foreColor = SystemColors.ControlText;
+            var backColor = Color.White; 
+            var foreColor = Color.Black;
             var defaultFont = new Font("Segoe UI", 12);
 
             return new AppSetting {

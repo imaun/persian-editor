@@ -34,5 +34,10 @@ namespace Farcin.Editor.Core.Models.Setting {
         public int CurrentLine { get; set; }
         public bool HasPendingChanges { get; set; }
         public HorizontalAlignment TextAlign { get; set; }
+
+        public string FontFamilyName
+            => FontName.Contains("؛")
+                ? FontName.Split('؛')[0]
+                : FontName;
     }
 }

@@ -407,7 +407,7 @@ namespace Farcin.Editor.Core.Models {
 
         public void Print() {
             if (_printSetting == null && 
-                GetPrintSetting() == DialogResult.Cancel) return;
+                    GetPrintSetting() == DialogResult.Cancel) return;
 
             PrintDocument printDoc = new PrintDocument {
                 PrinterSettings = _printSetting

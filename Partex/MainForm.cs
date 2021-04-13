@@ -105,7 +105,7 @@ namespace Farcin.Editor {
             MainWindowState.LastWidth = Width;
             MainWindowState.LastLeftPosition = Left;
             MainWindowState.LastTopPosition = Top;
-            fizzBuzzTest();
+            //fizzBuzzTest();
         }
 
         private TxtEditor CreateTab(TxtFile file = null) {
@@ -975,9 +975,6 @@ namespace Farcin.Editor {
             }
         }
 
-        private void mnuEditorAlignRight_Click(object sender, EventArgs e) {
-        }
-
         private void mnuViewFileProperties_Click(object sender, EventArgs e) {
             if (ActiveEditor == null) return;
 
@@ -1061,7 +1058,9 @@ namespace Farcin.Editor {
 
         private void mnuToolsOptions_Click(object sender, EventArgs e) {
             using(var settingForm = new SettingForm()) {
-                settingForm.ShowDialog();
+                if(settingForm.ShowDialog() == DialogResult.OK) {
+                    _appSettings = settingForm.Setting;
+                }
             }
         }
 
