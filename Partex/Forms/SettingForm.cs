@@ -29,6 +29,11 @@ namespace Farcin.Editor.Forms {
 
         public AppSetting Setting => _appSetting;
 
+        public bool KeepOpenFiles {
+            get => chkKeepOpenFiles.Checked;
+            set => chkKeepOpenFiles.Checked = value;
+        }
+
         public Color DefaultEditorFontColor {
             get => btnForeColor.BackColor;
             set => btnForeColor.BackColor = value;
@@ -76,6 +81,7 @@ namespace Farcin.Editor.Forms {
         }
 
         public void loadAppSettings() {
+            KeepOpenFiles = _appSetting.KeepOpenFilesAfterExit;
             DefaultEditorFontColor = _appSetting.DefaultFileSetting.ForeColorValue;
             DefaultEditorBackColor = _appSetting.DefaultFileSetting.BackColorValue;
             DefaultEditorFontSize = _appSetting.DefaultFileSetting.FontSize;
@@ -83,6 +89,7 @@ namespace Farcin.Editor.Forms {
         }
 
         public void saveAppSettings() {
+            _appSetting.KeepOpenFilesAfterExit = KeepOpenFiles;
             _appSetting.DefaultFileSetting.BackColor = DefaultEditorBackColorValue;
             _appSetting.DefaultFileSetting.FontName = DefaultEditorFontName;
             _appSetting.DefaultFileSetting.ForeColor = DefaultEditorFontColorValue;

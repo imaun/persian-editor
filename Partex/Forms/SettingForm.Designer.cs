@@ -185,9 +185,9 @@ namespace Farcin.Editor.Forms
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(420, 468);
+            this.btnSave.Location = new System.Drawing.Point(441, 468);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(110, 32);
+            this.btnSave.Size = new System.Drawing.Size(102, 32);
             this.btnSave.TabIndex = 1;
             this.btnSave.Text = "ذخیره";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -196,9 +196,9 @@ namespace Farcin.Editor.Forms
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(541, 468);
+            this.btnCancel.Location = new System.Drawing.Point(549, 468);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(110, 32);
+            this.btnCancel.Size = new System.Drawing.Size(102, 32);
             this.btnCancel.TabIndex = 1;
             this.btnCancel.Text = "انصراف";
             this.btnCancel.UseVisualStyleBackColor = true;
