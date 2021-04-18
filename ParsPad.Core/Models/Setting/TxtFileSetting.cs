@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using Newtonsoft.Json;
 using System.Windows.Forms;
+using Farcin.Editor.Core.Models.Types;
 
 namespace Farcin.Editor.Core.Models.Setting {
     
@@ -34,6 +35,7 @@ namespace Farcin.Editor.Core.Models.Setting {
         public int CurrentLine { get; set; }
         public bool HasPendingChanges { get; set; }
         public HorizontalAlignment TextAlign { get; set; }
+        public TxtDirection Direction { get; set; }
 
         public string FontFamilyName
             => FontName.Contains("؛")

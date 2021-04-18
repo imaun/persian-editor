@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Text;
 using System.Windows.Forms;
+using Farcin.Editor.Core.Models.Types;
 using Farcin.Editor.Core.Models.Setting;
 
 namespace Farcin.Editor.Forms {
@@ -65,6 +66,47 @@ namespace Farcin.Editor.Forms {
             set => numFontSize.Value = (decimal)value;
         }
 
+        public HorizontalAlignment DefaultTextAlign {
+            get {
+                if (btnTextAlignRight.Checked)
+                    return HorizontalAlignment.Right;
+                if (btnTextAlignLeft.Checked)
+                    return HorizontalAlignment.Left;
+                return HorizontalAlignment.Center;
+            }
+            set {
+                switch(value) {
+                    case HorizontalAlignment.Right:
+                        btnTextAlignRight.Checked = true;
+                        break;
+                    case HorizontalAlignment.Center:
+                        btnTextAlignCenter.Checked = true;
+                        break;
+                    case HorizontalAlignment.Left:
+                        btnTextAlignLeft.Checked = true;
+                        break;
+                }
+            }
+        }
+
+        public TxtDirection DefaultTextDirection {
+            get {
+                if (rdbDirAuto.Checked)
+                    return TxtDirection.Auto;
+                else if (rdbDirLtr.Checked)
+                    return TxtDirection.Ltr;
+                return TxtDirection.Rtl;
+            }
+            set {
+                if (value == TxtDirection.Auto)
+                    rdbDirAuto.Checked = true;
+                else if (value == TxtDirection.Ltr)
+                    rdbDirLtr.Checked = true;
+                else
+                    rdbDirRtl.Checked = true;
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -86,6 +128,8 @@ namespace Farcin.Editor.Forms {
             DefaultEditorBackColor = _appSetting.DefaultFileSetting.BackColorValue;
             DefaultEditorFontSize = _appSetting.DefaultFileSetting.FontSize;
             DefaultEditorFontName = _appSetting.DefaultFileSetting.FontFamilyName;
+            DefaultTextAlign = _appSetting.DefaultFileSetting.TextAlign;
+            DefaultTextDirection = _appSetting.DefaultFileSetting.Direction;
         }
 
         public void saveAppSettings() {
@@ -94,6 +138,8 @@ namespace Farcin.Editor.Forms {
             _appSetting.DefaultFileSetting.FontName = DefaultEditorFontName;
             _appSetting.DefaultFileSetting.ForeColor = DefaultEditorFontColorValue;
             _appSetting.DefaultFileSetting.FontSize = DefaultEditorFontSize;
+            _appSetting.DefaultFileSetting.Direction = DefaultTextDirection;
+            _appSetting.DefaultFileSetting.TextAlign = DefaultTextAlign;
             _appSetting.Save();
         }
 
@@ -101,6 +147,18 @@ namespace Farcin.Editor.Forms {
             txtEditorSample.Font = new Font(DefaultEditorFontName, DefaultEditorFontSize);
             txtEditorSample.ForeColor = DefaultEditorFontColor;
             txtEditorSample.BackColor = DefaultEditorBackColor;
+            if (btnTextAlignCenter.Checked)
+                txtEditorSample.TextAlign = HorizontalAlignment.Center;
+            else if (btnTextAlignLeft.Checked)
+                txtEditorSample.TextAlign = HorizontalAlignment.Left;
+            else if (btnTextAlignRight.Checked)
+                txtEditorSample.TextAlign = HorizontalAlignment.Right;
+            if (rdbDirRtl.Checked)
+                txtEditorSample.RightToLeft = RightToLeft.Yes;
+            else if (rdbDirLtr.Checked)
+                txtEditorSample.RightToLeft = RightToLeft.No;
+            else if (rdbDirAuto.Checked)
+                txtEditorSample.RightToLeft = RightToLeft.Inherit;
         }
 
         #endregion
@@ -131,6 +189,30 @@ namespace Farcin.Editor.Forms {
             saveAppSettings();
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void btnTextAlignRight_CheckedChanged(object sender, EventArgs e) {
+            txtEditorSample.TextAlign = HorizontalAlignment.Right;
+        }
+
+        private void btnTextAlignCenter_CheckedChanged(object sender, EventArgs e) {
+            txtEditorSample.TextAlign = HorizontalAlignment.Center;
+        }
+
+        private void btnTextAlignLeft_CheckedChanged(object sender, EventArgs e) {
+            txtEditorSample.TextAlign = HorizontalAlignment.Right;
+        }
+
+        private void rdbDirAuto_CheckedChanged(object sender, EventArgs e) {
+            setSampleText();
+        }
+
+        private void rdbDirRtl_CheckedChanged(object sender, EventArgs e) {
+            setSampleText();
+        }
+
+        private void rdbDirLtr_CheckedChanged(object sender, EventArgs e) {
+            setSampleText();
         }
     }
 }

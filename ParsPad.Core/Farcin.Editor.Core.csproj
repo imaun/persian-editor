@@ -57,6 +57,7 @@
     <Compile Include="Models\Types\InsertTextType.cs" />
     <Compile Include="Date\PersianDateHelper.cs" />
     <Compile Include="Date\PersianHelper.cs" />
+    <Compile Include="Models\Types\TxtDirection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AutoSaveService.cs" />
     <Compile Include="Services\EditorInfoService.cs" />

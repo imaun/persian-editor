@@ -14,7 +14,21 @@ using System.Text;
 namespace Farcin.Editor {
 
     public partial class MainForm : Form {
-       
+
+        public MainForm() {
+            InitializeComponent();
+            StartUp();
+        }
+
+        public MainForm(IEnumerable<TxtFile> files) {
+            InitializeComponent();
+            StartUp();
+
+            foreach (var file in files) {
+                CreateTab(file);
+            }
+        }
+
         #region Constants
 
         private const string APP_TITLE = "فارسین";
@@ -431,20 +445,6 @@ namespace Farcin.Editor {
             UpdateStatus();
         }
 
-        public MainForm() {
-            InitializeComponent();
-            StartUp();
-        }
-
-        public MainForm(IEnumerable<TxtFile> files) {
-            InitializeComponent();
-            StartUp();
-            
-            foreach (var file in files) {
-                CreateTab(file);
-            }
-        }
-
         private void mnuFileNew_Click(object sender, EventArgs e) {
             CreateTab();
         }
@@ -658,20 +658,17 @@ namespace Farcin.Editor {
 
         private void mnuViewFont_Click(object sender, EventArgs e) {
             if (ActiveEditor == null) return;
-            using (var fontDialog = new FontDialog())
-            {
+            using (var fontDialog = new FontDialog()) {
                 fontDialog.Font = ActiveEditor.Font;
                 fontDialog.ShowColor = true;
                 fontDialog.Color = ActiveEditor.ForeColor;
-                if (fontDialog.ShowDialog() == DialogResult.OK)
-                {
+                if (fontDialog.ShowDialog() == DialogResult.OK) {
                     SetFont(fontDialog.Font, fontDialog.Color);
                 }
             }
         }
 
         private void mnuInsertDatePersian_Click(object sender, EventArgs e) {
-            //ActiveEditor.SelectedText = new PersianDateHelper().Convert(DateTime.Now,PersianDateFormat.Normal);
             ActiveEditor?.Insert(InsertTextType.CurrentPersianDateNumbers);
         }
 
@@ -712,12 +709,12 @@ namespace Farcin.Editor {
             if(ActiveEditor == null) return;
 
             if (ActiveEditor.File.LastFindIndex > 0) {
-                int start = ActiveEditor.Text.IndexOf(ActiveEditor.File.FindString, 
+                int start = ActiveEditor.Text.IndexOf(
+                    ActiveEditor.File.FindString, 
                     ActiveEditor.File.LastFindIndex,
                     StringComparison.CurrentCultureIgnoreCase);
-                if (start == -1)
-                {
-                    MessageBox.Show("در متن یافت نشد");
+                if (start == -1) {
+                    MessageBox.Show($"'{ActiveEditor.File.FindString}' !در نوشته یافت نشد");
                     ActiveEditor.File.LastFindIndex = 0;
                     return;
                 }
@@ -726,12 +723,10 @@ namespace Farcin.Editor {
                 ActiveEditor.SelectionLength = ActiveEditor.File.FindString.Length;
                 ActiveEditor.ScrollToCaret();
                 ActiveEditor.Focus();
-                //btnFind.Text = "یافتن بعدی";
             }
             else {
                 mnuSearchFind_Click(sender, e);
             }
-            
         }
 
         private void mnuEdit_DropDownOpening(object sender, EventArgs e) {

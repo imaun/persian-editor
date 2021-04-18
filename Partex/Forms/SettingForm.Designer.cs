@@ -30,6 +30,13 @@ namespace Farcin.Editor.Forms
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.chkKeepOpenFiles = new System.Windows.Forms.CheckBox();
             this.tabEditor = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnTextAlignLeft = new System.Windows.Forms.RadioButton();
+            this.btnTextAlignCenter = new System.Windows.Forms.RadioButton();
+            this.btnTextAlignRight = new System.Windows.Forms.RadioButton();
+            this.rdbDirLtr = new System.Windows.Forms.RadioButton();
+            this.rdbDirRtl = new System.Windows.Forms.RadioButton();
+            this.rdbDirAuto = new System.Windows.Forms.RadioButton();
             this.txtEditorSample = new System.Windows.Forms.TextBox();
             this.btnBackColor = new System.Windows.Forms.Button();
             this.btnForeColor = new System.Windows.Forms.Button();
@@ -37,6 +44,7 @@ namespace Farcin.Editor.Forms
             this.ddlFonts = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
@@ -44,6 +52,7 @@ namespace Farcin.Editor.Forms
             this.Tabs.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             this.tabEditor.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numFontSize)).BeginInit();
             this.SuspendLayout();
             // 
@@ -83,6 +92,10 @@ namespace Farcin.Editor.Forms
             // 
             // tabEditor
             // 
+            this.tabEditor.Controls.Add(this.groupBox1);
+            this.tabEditor.Controls.Add(this.rdbDirLtr);
+            this.tabEditor.Controls.Add(this.rdbDirRtl);
+            this.tabEditor.Controls.Add(this.rdbDirAuto);
             this.tabEditor.Controls.Add(this.txtEditorSample);
             this.tabEditor.Controls.Add(this.btnBackColor);
             this.tabEditor.Controls.Add(this.btnForeColor);
@@ -90,6 +103,7 @@ namespace Farcin.Editor.Forms
             this.tabEditor.Controls.Add(this.ddlFonts);
             this.tabEditor.Controls.Add(this.label2);
             this.tabEditor.Controls.Add(this.label4);
+            this.tabEditor.Controls.Add(this.label5);
             this.tabEditor.Controls.Add(this.label3);
             this.tabEditor.Controls.Add(this.label1);
             this.tabEditor.Location = new System.Drawing.Point(4, 26);
@@ -99,6 +113,93 @@ namespace Farcin.Editor.Forms
             this.tabEditor.TabIndex = 1;
             this.tabEditor.Text = "ویرایشگر";
             this.tabEditor.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btnTextAlignLeft);
+            this.groupBox1.Controls.Add(this.btnTextAlignCenter);
+            this.groupBox1.Controls.Add(this.btnTextAlignRight);
+            this.groupBox1.Location = new System.Drawing.Point(18, 226);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(437, 66);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "تراز نوشته";
+            // 
+            // btnTextAlignLeft
+            // 
+            this.btnTextAlignLeft.Appearance = System.Windows.Forms.Appearance.Button;
+            this.btnTextAlignLeft.AutoSize = true;
+            this.btnTextAlignLeft.Image = global::Farcin.Editor.Properties.Resources.icons8_align_left_16;
+            this.btnTextAlignLeft.Location = new System.Drawing.Point(322, 24);
+            this.btnTextAlignLeft.Name = "btnTextAlignLeft";
+            this.btnTextAlignLeft.Size = new System.Drawing.Size(22, 22);
+            this.btnTextAlignLeft.TabIndex = 0;
+            this.btnTextAlignLeft.TabStop = true;
+            this.btnTextAlignLeft.UseVisualStyleBackColor = true;
+            this.btnTextAlignLeft.CheckedChanged += new System.EventHandler(this.btnTextAlignLeft_CheckedChanged);
+            // 
+            // btnTextAlignCenter
+            // 
+            this.btnTextAlignCenter.Appearance = System.Windows.Forms.Appearance.Button;
+            this.btnTextAlignCenter.AutoSize = true;
+            this.btnTextAlignCenter.Image = global::Farcin.Editor.Properties.Resources.icons8_align_center_161;
+            this.btnTextAlignCenter.Location = new System.Drawing.Point(361, 24);
+            this.btnTextAlignCenter.Name = "btnTextAlignCenter";
+            this.btnTextAlignCenter.Size = new System.Drawing.Size(22, 22);
+            this.btnTextAlignCenter.TabIndex = 0;
+            this.btnTextAlignCenter.TabStop = true;
+            this.btnTextAlignCenter.UseVisualStyleBackColor = true;
+            this.btnTextAlignCenter.CheckedChanged += new System.EventHandler(this.btnTextAlignCenter_CheckedChanged);
+            // 
+            // btnTextAlignRight
+            // 
+            this.btnTextAlignRight.Appearance = System.Windows.Forms.Appearance.Button;
+            this.btnTextAlignRight.AutoSize = true;
+            this.btnTextAlignRight.Image = global::Farcin.Editor.Properties.Resources.icons8_align_right_161;
+            this.btnTextAlignRight.Location = new System.Drawing.Point(399, 24);
+            this.btnTextAlignRight.Name = "btnTextAlignRight";
+            this.btnTextAlignRight.Size = new System.Drawing.Size(22, 22);
+            this.btnTextAlignRight.TabIndex = 0;
+            this.btnTextAlignRight.TabStop = true;
+            this.btnTextAlignRight.UseVisualStyleBackColor = true;
+            this.btnTextAlignRight.CheckedChanged += new System.EventHandler(this.btnTextAlignRight_CheckedChanged);
+            // 
+            // rdbDirLtr
+            // 
+            this.rdbDirLtr.AutoSize = true;
+            this.rdbDirLtr.Location = new System.Drawing.Point(143, 188);
+            this.rdbDirLtr.Name = "rdbDirLtr";
+            this.rdbDirLtr.Size = new System.Drawing.Size(95, 21);
+            this.rdbDirLtr.TabIndex = 5;
+            this.rdbDirLtr.TabStop = true;
+            this.rdbDirLtr.Text = "چپ به راست";
+            this.rdbDirLtr.UseVisualStyleBackColor = true;
+            this.rdbDirLtr.CheckedChanged += new System.EventHandler(this.rdbDirLtr_CheckedChanged);
+            // 
+            // rdbDirRtl
+            // 
+            this.rdbDirRtl.AutoSize = true;
+            this.rdbDirRtl.Location = new System.Drawing.Point(267, 188);
+            this.rdbDirRtl.Name = "rdbDirRtl";
+            this.rdbDirRtl.Size = new System.Drawing.Size(95, 21);
+            this.rdbDirRtl.TabIndex = 5;
+            this.rdbDirRtl.TabStop = true;
+            this.rdbDirRtl.Text = "راست به چپ";
+            this.rdbDirRtl.UseVisualStyleBackColor = true;
+            this.rdbDirRtl.CheckedChanged += new System.EventHandler(this.rdbDirRtl_CheckedChanged);
+            // 
+            // rdbDirAuto
+            // 
+            this.rdbDirAuto.AutoSize = true;
+            this.rdbDirAuto.Location = new System.Drawing.Point(392, 188);
+            this.rdbDirAuto.Name = "rdbDirAuto";
+            this.rdbDirAuto.Size = new System.Drawing.Size(63, 21);
+            this.rdbDirAuto.TabIndex = 5;
+            this.rdbDirAuto.TabStop = true;
+            this.rdbDirAuto.Text = "خودکار";
+            this.rdbDirAuto.UseVisualStyleBackColor = true;
+            this.rdbDirAuto.CheckedChanged += new System.EventHandler(this.rdbDirAuto_CheckedChanged);
             // 
             // txtEditorSample
             // 
@@ -165,6 +266,15 @@ namespace Farcin.Editor.Forms
             this.label4.TabIndex = 0;
             this.label4.Text = "انتخاب رنگ پس‌زمینه:";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(471, 190);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(96, 17);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "نوع زبان نوشته :";
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -229,6 +339,8 @@ namespace Farcin.Editor.Forms
             this.tabGeneral.PerformLayout();
             this.tabEditor.ResumeLayout(false);
             this.tabEditor.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numFontSize)).EndInit();
             this.ResumeLayout(false);
 
@@ -251,5 +363,13 @@ namespace Farcin.Editor.Forms
         private System.Windows.Forms.TextBox txtEditorSample;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnBackColor;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.RadioButton rdbDirLtr;
+        private System.Windows.Forms.RadioButton rdbDirRtl;
+        private System.Windows.Forms.RadioButton rdbDirAuto;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton btnTextAlignLeft;
+        private System.Windows.Forms.RadioButton btnTextAlignCenter;
+        private System.Windows.Forms.RadioButton btnTextAlignRight;
     }
 }
